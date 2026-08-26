@@ -1,0 +1,103 @@
+{
+  "tickets": [
+    {
+      "id": "early-bird",
+      "name": "Early Bird",
+      "price": 180000,
+      "currency": "NGN",
+      "available": true
+    },
+    {
+      "id": "standard",
+      "name": "Standard Tier",
+      "price": 200000,
+      "currency": "NGN",
+      "available": true
+    },
+    {
+      "id": "vip",
+      "name": "VIP Tier",
+      "price": 300000,
+      "currency": "NGN",
+      "available": true
+    }
+  ],
+
+  "masterclasses": [
+    {
+      "id": "graphic-design",
+      "name": "Graphic Design Masterclass",
+      "sessions": [
+        {
+          "id": "graphic-design-session-1",
+          "date": "2026-09-12",
+          "time": "10:00",
+          "label": "Saturday, September 12, 2026 — 10:00 AM"
+        },
+        {
+          "id": "graphic-design-session-2",
+          "date": "2026-09-19",
+          "time": "10:00",
+          "label": "Saturday, September 19, 2026 — 10:00 AM"
+        }
+      ]
+    },
+
+    {
+      "id": "motion-design",
+      "name": "Motion Design Masterclass",
+      "sessions": [
+        {
+          "id": "motion-design-session-1",
+          "date": "2026-09-19",
+          "time": "14:00",
+          "label": "Saturday, September 19, 2026 — 2:00 PM"
+        },
+        {
+          "id": "motion-design-session-2",
+          "date": "2026-09-26",
+          "time": "14:00",
+          "label": "Saturday, September 26, 2026 — 2:00 PM"
+        }
+      ]
+    },
+
+    {
+      "id": "ui-ux-design",
+      "name": "UI/UX Design Masterclass",
+      "sessions": [
+        {
+          "id": "ui-ux-session-1",
+          "date": "2026-09-12",
+          "time": "14:00",
+          "label": "Saturday, September 12, 2026 — 2:00 PM"
+        },
+        {
+          "id": "ui-ux-session-2",
+          "date": "2026-09-26",
+          "time": "10:00",
+          "label": "Saturday, September 26, 2026 — 10:00 AM"
+        }
+      ]
+    },
+
+    {
+      "id": "3d-design",
+      "name": "3D Design Masterclass",
+      "sessions": [
+        {
+          "id": "3d-design-session-1",
+          "date": "2026-09-13",
+          "time": "10:00",
+          "label": "Sunday, September 13, 2026 — 10:00 AM"
+        },
+        {
+          "id": "3d-design-session-2",
+          "date": "2026-09-27",
+          "time": "10:00",
+          "label": "Sunday, September 27, 2026 — 10:00 AM"
+        }
+      ]
+    }
+  ]
+}
