@@ -143,10 +143,6 @@ const experienceOptions = [
     {
         value: "advanced",
         label: "Advanced"
-    },
-    {
-        value: "professional",
-        label: "Professional"
     }
 ];
 
@@ -160,11 +156,8 @@ const creativeTools = [
         tools: [
             "Adobe Photoshop",
             "Adobe Illustrator",
-            "Adobe InDesign",
             "CorelDRAW",
-            "Canva",
-            "Affinity Designer",
-            "Affinity Photo"
+            "Canva"
         ]
     },
 
@@ -174,22 +167,6 @@ const creativeTools = [
             "Adobe After Effects",
             "Adobe Premiere Pro",
             "DaVinci Resolve",
-            "Blender",
-            "Cinema 4D",
-            "Final Cut Pro",
-            "CapCut"
-        ]
-    },
-
-    {
-        category: "UI/UX",
-        tools: [
-            "Figma",
-            "Adobe XD",
-            "Sketch",
-            "Framer",
-            "Webflow",
-            "ProtoPie"
         ]
     },
 
@@ -206,38 +183,12 @@ const creativeTools = [
     },
 
     {
-        category: "AI & Creative",
-        tools: [
-            "ChatGPT",
-            "Claude",
-            "Google Gemini",
-            "Midjourney",
-            "Adobe Firefly",
-            "Runway",
-            "Kling AI",
-            "Leonardo AI",
-            "Ideogram"
-        ]
-    },
-
-    {
         category: "Photography",
         tools: [
             "Adobe Lightroom",
-            "Capture One"
         ]
     },
 
-    {
-        category: "Audio",
-        tools: [
-            "Adobe Audition",
-            "FL Studio",
-            "Ableton Live",
-            "Logic Pro",
-            "Audacity"
-        ]
-    }
 ];
 
 
