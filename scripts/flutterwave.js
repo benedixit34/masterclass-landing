@@ -128,21 +128,31 @@ async function submitToWeb3Forms(booking, transactionId) {
     formData.append("transaction_id", transactionId);
     formData.append("payment_status", "Paid");
 
-    const response = await fetch(
-        "https://api.web3forms.com/submit",
-        {
-            method: "POST",
-            body: formData
-        }
-    );
+ try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+    });
 
     const result = await response.json();
 
     if (result.success) {
         console.log("Booking submitted successfully.");
-        alert("Payment successful! Your booking has been received.");
-    } else {
-        console.error(result);
-        alert("Payment was successful, but we could not submit your booking. Please contact us.");
+
+        window.location.href =
+            `./status.html?status=success&reference=${encodeURIComponent(transactionId)}`;
+
+        return;
     }
+
+    console.error("Booking submission failed:", result);
+
+    window.location.href =
+        `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
+} catch (error) {
+    console.error("Booking submission failed:", error);
+
+    window.location.href =
+        `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
+}
 }
