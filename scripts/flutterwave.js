@@ -2,12 +2,115 @@ const paymentForm = document.getElementById("paymentForm");
 
 const ticketPrices = {
     "early-bird": 180000,
-    "standard": 200000,
-    "vip": 300000
+    standard: 200000,
+    vip: 300000
 };
+
+const API_URL = "http://localhost:3000/api/bookings";
+
+function showError(inputId, message) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(`${inputId}Error`);
+
+    if (error) {
+        error.textContent = message;
+        error.classList.remove("hidden");
+    }
+
+    if (input) {
+        input.classList.add("border-red-500");
+    }
+}
+
+function clearError(inputId) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(`${inputId}Error`);
+
+    if (error) {
+        error.textContent = "";
+        error.classList.add("hidden");
+    }
+
+    if (input) {
+        input.classList.remove("border-red-500");
+    }
+}
+
+function validateBookingForm() {
+    let isValid = true;
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const profile = document.getElementById("profile").value;
+    const experience = document.getElementById("experience").value;
+    const masterclass = document.getElementById("masterclass").value;
+    const session = document.getElementById("session").value;
+    const ticket = document.getElementById("ticket").value;
+
+    [
+        "name",
+        "email",
+        "phone",
+        "profile",
+        "experience",
+        "masterclass",
+        "session",
+        "ticket"
+    ].forEach(clearError);
+
+    if (!name) {
+        showError("name", "Please enter your full name.");
+        isValid = false;
+    }
+
+    if (!email) {
+        showError("email", "Please enter your email address.");
+        isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showError("email", "Please enter a valid email address.");
+        isValid = false;
+    }
+
+    if (!phone) {
+        showError("phone", "Please enter your phone number.");
+        isValid = false;
+    }
+
+    if (!profile) {
+        showError("profile", "Please select what best describes you.");
+        isValid = false;
+    }
+
+    if (!experience) {
+        showError("experience", "Please select your experience level.");
+        isValid = false;
+    }
+
+    if (!masterclass) {
+        showError("masterclass", "Please select a masterclass.");
+        isValid = false;
+    }
+
+    if (!session) {
+        showError("session", "Please select a session.");
+        isValid = false;
+    }
+
+    if (!ticket) {
+        showError("ticket", "Please select a ticket type.");
+        isValid = false;
+    }
+
+    return isValid;
+}
 
 paymentForm.addEventListener("submit", function (event) {
     event.preventDefault();
+
+    if (!validateBookingForm()) {
+        return;
+    }
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -15,56 +118,23 @@ paymentForm.addEventListener("submit", function (event) {
     const countryCode = document.getElementById("countryCode").value;
     const profile = document.getElementById("profile").value;
     const experience = document.getElementById("experience").value;
-    const tools = JSON.parse(document.getElementById("tools").value || "[]");
+
+    let tools = [];
+
+    try {
+        tools = JSON.parse(document.getElementById("tools").value || "[]");
+    } catch (error) {
+        console.error("Invalid tools value:", error);
+    }
+
     const masterclass = document.getElementById("masterclass").value;
     const session = document.getElementById("session").value;
     const ticket = document.getElementById("ticket").value;
     const learningGoal = document.getElementById("learningGoal").value.trim();
-
-    if (!name) {
-        alert("Please enter your full name.");
-        return;
-    }
-
-    if (!email) {
-        alert("Please enter your email address.");
-        return;
-    }
-
-    if (!phone) {
-        alert("Please enter your phone number.");
-        return;
-    }
-
-    if (!profile) {
-        alert("Please select what best describes you.");
-        return;
-    }
-
-    if (!experience) {
-        alert("Please select your experience level.");
-        return;
-    }
-
-    if (!masterclass) {
-        alert("Please select a masterclass.");
-        return;
-    }
-
-    if (!session) {
-        alert("Please select a session.");
-        return;
-    }
-
-    if (!ticket) {
-        alert("Please select a ticket type.");
-        return;
-    }
-
     const amount = ticketPrices[ticket];
 
     if (!amount) {
-        alert("Invalid ticket type.");
+        showError("ticket", "Invalid ticket type.");
         return;
     }
 
@@ -100,8 +170,14 @@ paymentForm.addEventListener("submit", function (event) {
             description: "Masterclass registration",
             logo: "../assets/Orange Seed Initiative Approved Logo.png"
         },
-        callback: (data) => {
-             submitToWeb3Forms(booking, data.transaction_id);
+        callback: async (data) => {
+            if (data.status !== "successful" || !data.transaction_id) {
+                window.location.href =
+                    `./status.html?status=failed&reference=${encodeURIComponent(data.transaction_id || "")}`;
+                return;
+            }
+
+            await submitBookingToAPI(booking, data.transaction_id);
         },
         onclose: function () {
             console.log("Flutterwave checkout closed.");
@@ -109,50 +185,47 @@ paymentForm.addEventListener("submit", function (event) {
     });
 });
 
-async function submitToWeb3Forms(booking, transactionId) {
-    const formData = new FormData();
+async function submitBookingToAPI(booking, transactionId) {
+    try {
+        const response = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                transactionId,
+                name: booking.name,
+                email: booking.email,
+                phone: booking.phone,
+                profile: booking.profile,
+                experience: booking.experience,
+                tools: booking.tools,
+                masterclass: booking.masterclass,
+                session: booking.session,
+                ticket: booking.ticket,
+                learningGoal: booking.learningGoal
+            })
+        });
 
-    formData.append("access_key", "YOUR_WEB3FORMS_ACCESS_KEY");
-    formData.append("subject", `New Masterclass Booking - ${booking.name}`);
-    formData.append("name", booking.name);
-    formData.append("email", booking.email);
-    formData.append("phone", booking.phone);
-    formData.append("profile", booking.profile);
-    formData.append("experience", booking.experience);
-    formData.append("tools", booking.tools.join(", "));
-    formData.append("masterclass", booking.masterclass);
-    formData.append("session", booking.session);
-    formData.append("ticket", booking.ticket);
-    formData.append("amount", `₦${booking.amount.toLocaleString()}`);
-    formData.append("learning_goal", booking.learningGoal);
-    formData.append("transaction_id", transactionId);
-    formData.append("payment_status", "Paid");
+        const result = await response.json();
 
- try {
-    const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData
-    });
+        if (!response.ok || !result.success) {
+            console.error("Booking API failed:", result);
 
-    const result = await response.json();
+            window.location.href =
+                `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
 
-    if (result.success) {
-        console.log("Booking submitted successfully.");
+            return;
+        }
+
+        console.log("Booking created successfully:", result);
 
         window.location.href =
             `./status.html?status=success&reference=${encodeURIComponent(transactionId)}`;
+    } catch (error) {
+        console.error("Unable to submit booking:", error);
 
-        return;
+        window.location.href =
+            `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
     }
-
-    console.error("Booking submission failed:", result);
-
-    window.location.href =
-        `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
-} catch (error) {
-    console.error("Booking submission failed:", error);
-
-    window.location.href =
-        `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
-}
 }

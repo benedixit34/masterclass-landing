@@ -225,6 +225,8 @@ createDropdown({
 });
 
 
+
+
 function renderTools() {
 
     toolsDropdown.innerHTML = "";
@@ -439,3 +441,22 @@ document.addEventListener("click", (event) => {
 
 renderTools();
 updateSelectedTools();
+
+
+
+const preferredModeButton = document.getElementById("preferredModeButton");
+const preferredModeDropdown = document.getElementById("preferredModeDropdown");
+const preferredModeSelected = document.getElementById("preferredModeSelected");
+const preferredModeInput = document.getElementById("preferredMode");
+
+preferredModeButton.addEventListener("click", () => {
+    preferredModeDropdown.classList.toggle("hidden");
+});
+
+preferredModeDropdown.querySelectorAll("button").forEach((button) => {
+    button.addEventListener("click", () => {
+        preferredModeInput.value = button.dataset.value;
+        preferredModeSelected.textContent = button.textContent.trim();
+        preferredModeDropdown.classList.add("hidden");
+    });
+});

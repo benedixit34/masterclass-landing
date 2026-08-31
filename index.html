@@ -1,349 +1,323 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     <link rel="icon" href="./assets/favicon.ico" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-   
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
-    />
-    <title>Masterclass Bookings</title>
-  </head>
 
-  <body class="bg-[#ff4c00] py-20 px-6 xl:px-0">
-    <div class="mx-auto xl:max-w-1/3 rounded-xl bg-white px-8 py-12 font-[Poppins] text-sm font-light shadow-md">
-    
-        <img src="./assets/Orange Seed Initiative Approved Logo.png" alt="Orange Seed Initiative" class="w-16 mb-4" />
-      <h1 class="mb-2 font-[Montserrat] text-3xl font-semibold tracking-tight">Masterclass Bookings</h1>
-      <p class="mb-4 text-sm leading-5">
-        Join the exclusive inner circle for the Master Pipeline Cohort coming in
-        September! VIP members get 48-hour early access to registration, a 10%
-        early-bird discount, and a free ticket to our future 1-Day AI Creative
-        Bootcamp (TBA). Seats are strictly limited.
-      </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-      <form id="paymentForm">
-        <!-- Personal Information -->
-        <div id="personal-info">
-          <div class="mb-4">
-            <label class="mb-2 block text-sm font-medium text-gray-700" for="name">Full Name</label>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
+  <title>Masterclass Bookings</title>
+</head>
+
+<body class="bg-[#ff4c00] py-20 px-6 xl:px-0">
+  <div class="mx-auto xl:max-w-1/3 rounded-xl bg-white px-8 py-12 font-[Poppins] text-sm font-light shadow-md">
+
+    <img src="./assets/Orange Seed Initiative Approved Logo.png" alt="Orange Seed Initiative" class="w-16 mb-4" />
+    <h1 class="mb-2 font-[Montserrat] text-3xl font-semibold tracking-tight">Masterclass Bookings</h1>
+    <p class="mb-4 text-sm leading-5">
+      Join the exclusive inner circle for the Master Pipeline Cohort coming in
+      September! VIP members get 48-hour early access to registration, a 10%
+      early-bird discount, and a free ticket to our future 1-Day AI Creative
+      Bootcamp (TBA). Seats are strictly limited.
+    </p>
+
+    <form id="paymentForm">
+      <!-- Personal Information -->
+      <div id="personal-info">
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-700" for="name">Full Name</label>
+          <input
+            class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
+            id="name" type="text" placeholder="Enter Full Name" required />
+          <p id="nameError" class="mt-1 hidden text-xs text-red-500"></p>
+        </div>
+
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="email">Email Address</label>
+          <input
+            class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
+            id="email" type="email" placeholder="Enter your email" required />
+          <p id="emailError" class="mt-1 hidden text-xs text-red-500"></p>
+        </div>
+
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="phone">Phone Number</label>
+          <div class="relative flex w-full gap-x-4">
+            <button type="button" id="countryButton"
+              class="flex items-center gap-2 rounded-l border border-gray-300 bg-gray-50 px-3 py-2 text-gray-700 focus:outline-none">
+              <span id="selectedFlag" class="fi fi-ng"></span>
+              <span id="selectedDialCode">+234</span>
+              <span class="text-xs">▼</span>
+            </button>
+
             <input
               class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
-              id="name"
-              type="text"
-              placeholder="Enter Full Name"
-              required
-            />
-            <p id="nameError" class="mt-1 hidden text-xs text-red-500"></p>
+              id="phone" name="phone" type="tel" placeholder="801 234 5678" required />
+
+            <div id="countryDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-64 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
+            </div>
           </div>
 
-          <div class="mb-4">
-            <label class="mb-2 block text-sm font-semibold text-gray-700" for="email">Email Address</label>
-            <input
-              class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              required
-            />
-            <p id="emailError" class="mt-1 hidden text-xs text-red-500"></p>
-          </div>
+          <input type="hidden" id="countryCode" name="country_code" value="+234" />
 
-          <div class="mb-4">
-            <label class="mb-2 block text-sm font-semibold text-gray-700" for="phone">Phone Number</label>
-            <div class="relative flex w-full gap-x-4">
-              <button
-                type="button"
-                id="countryButton"
-                class="flex items-center gap-2 rounded-l border border-gray-300 bg-gray-50 px-3 py-2 text-gray-700 focus:outline-none"
-              >
-                <span id="selectedFlag" class="fi fi-ng"></span>
-                <span id="selectedDialCode">+234</span>
-                <span class="text-xs">▼</span>
-              </button>
+          <p id="phoneError" class="mt-1 hidden text-xs text-red-500"></p>
+        </div>
 
-              <input
-                class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="801 234 5678"
-                required
-              />
+        <button id="personal-info-button"
+          class="rounded bg-[#ff4c00] px-4 py-2 font-bold text-white hover:bg-[#e64400] focus:outline-none focus:shadow-outline"
+          type="button">
+          Next
+        </button>
+      </div>
 
-              <div
-                id="countryDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-64 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"
-              ></div>
+      <!-- Professional Information -->
+      <div id="professional-info" class="hidden">
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-medium text-gray-700">
+            What Best Describes You?
+          </label>
+
+          <div class="relative">
+            <button type="button" id="profileButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="profileSelected">Select an option</span>
+              <span class="text-xs text-gray-400">▼</span>
+            </button>
+
+            <div id="profileDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
             </div>
 
-            <input
-              type="hidden"
-              id="countryCode"
-              name="country_code"
-              value="+234"
-            />
+            <input type="hidden" id="profile" name="profile" required />
+          </div>
+          <p id="profileError" class="mt-1 hidden text-xs text-red-500"></p>
+        </div>
 
-            <p id="phoneError" class="mt-1 hidden text-xs text-red-500"></p>
+        <div class="mb-6">
+          <label class="mb-2 block text-sm font-medium text-gray-700">
+            What's your experience level?
+          </label>
+
+          <div class="relative">
+            <button type="button" id="experienceButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="experienceSelected">Select your experience level</span>
+              <span class="text-xs text-gray-400">▼</span>
+            </button>
+
+            <div id="experienceDropdown"
+              class="absolute left-0 top-full z-40 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
+            </div>
+
+            <input type="hidden" id="experience" name="experience" required />
+          </div>
+          <p id="experienceError" class="mt-1 hidden text-xs text-red-500"></p>
+        </div>
+
+        <div class="mb-6">
+          <label class="mb-2 block text-sm font-medium text-gray-700" for="tools">
+            Which tools are you familiar with?
+          </label>
+
+          <div class="relative">
+            <button type="button" id="toolsButton"
+              class="flex min-h-[44px] w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2 text-left text-sm text-gray-700 focus:border-[#ff4c00]/50 focus:outline-none">
+              <div id="selectedTools" class="flex flex-wrap gap-1.5">
+                <span class="text-gray-400">Select tools</span>
+              </div>
+              <span class="ml-2 shrink-0 text-xs text-gray-400">▼</span>
+            </button>
+
+            <div id="toolsDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden max-h-80 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg">
+            </div>
           </div>
 
-          <button
-            id="personal-info-button"
-            class="rounded bg-[#ff4c00] px-4 py-2 font-bold text-white hover:bg-[#e64400] focus:outline-none focus:shadow-outline"
-            type="button"
-          >
+          <div class="mt-3">
+            <label for="otherTool" class="mb-1 block text-xs text-gray-500">
+              Can't find your tool? Add it here.
+            </label>
+
+            <div class="flex gap-2">
+              <input id="otherTool" type="text" placeholder="e.g. Houdini"
+                class="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 outline-none focus:border-[#ff4c00]/50" />
+
+              <button type="button" id="addToolButton"
+                class="rounded bg-[#ff4c00] px-4 py-2 text-sm font-medium text-white hover:bg-[#e64400]">
+                Add
+              </button>
+            </div>
+          </div>
+
+          <input type="hidden" id="tools" name="tools" value="[]" />
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="back-to-personal-button" type="button"
+            class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50">
+            Back
+          </button>
+
+          <button id="professional-info-button" type="button"
+            class="rounded bg-[#ff4c00] px-5 py-2.5 font-bold text-white transition hover:bg-[#e64400] focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20">
             Next
           </button>
         </div>
+      </div>
 
-        <!-- Professional Information -->
-        <div id="professional-info" class="hidden">
-          <div class="mb-4">
-            <label class="mb-2 block text-sm font-medium text-gray-700">
-              What Best Describes You?
-            </label>
+      <!-- Masterclass Information -->
+      <div id="masterclass-info" class="hidden">
+        <div class="mb-5">
+          <label for="masterclassButton" class="mb-2 block text-sm font-medium text-gray-700">
+            Select Masterclass
+          </label>
 
-            <div class="relative">
-              <button
-                type="button"
-                id="profileButton"
-                class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-              >
-                <span id="profileSelected">Select an option</span>
-                <span class="text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="profileDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-
-              <input type="hidden" id="profile" name="profile" required />
-            </div>
-             <p id="profileError" class="mt-1 hidden text-xs text-red-500"></p>
-          </div>
-
-          <div class="mb-6">
-            <label class="mb-2 block text-sm font-medium text-gray-700">
-              What's your experience level?
-            </label>
-
-            <div class="relative">
-              <button
-                type="button"
-                id="experienceButton"
-                class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-              >
-                <span id="experienceSelected">Select your experience level</span>
-                <span class="text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="experienceDropdown"
-                class="absolute left-0 top-full z-40 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-
-              <input type="hidden" id="experience" name="experience" required />
-            </div>
-            <p id="experienceError" class="mt-1 hidden text-xs text-red-500"></p>
-          </div>
-
-          <div class="mb-6">
-            <label class="mb-2 block text-sm font-medium text-gray-700" for="tools">
-              Which tools are you familiar with?
-            </label>
-
-            <div class="relative">
-              <button
-                type="button"
-                id="toolsButton"
-                class="flex min-h-[44px] w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2 text-left text-sm text-gray-700 focus:border-[#ff4c00]/50 focus:outline-none"
-              >
-                <div id="selectedTools" class="flex flex-wrap gap-1.5">
-                  <span class="text-gray-400">Select tools</span>
-                </div>
-                <span class="ml-2 shrink-0 text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="toolsDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden max-h-80 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-            </div>
-
-            <div class="mt-3">
-              <label for="otherTool" class="mb-1 block text-xs text-gray-500">
-                Can't find your tool? Add it here.
-              </label>
-
-              <div class="flex gap-2">
-                <input
-                  id="otherTool"
-                  type="text"
-                  placeholder="e.g. Houdini"
-                  class="min-w-0 flex-1 rounded border border-gray-300 px-3 py-2 text-sm text-gray-700 outline-none focus:border-[#ff4c00]/50"
-                />
-
-                <button
-                  type="button"
-                  id="addToolButton"
-                  class="rounded bg-[#ff4c00] px-4 py-2 text-sm font-medium text-white hover:bg-[#e64400]"
-                >
-                  Add
-                </button>
-              </div>
-            </div>
-
-            <input type="hidden" id="tools" name="tools" value="[]" />
-          </div>
-
-          <div class="flex items-center gap-3">
-            <button
-              id="back-to-personal-button"
-              type="button"
-              class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50"
-            >
-              Back
+          <div class="relative">
+            <button type="button" id="masterclassButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="masterclassSelected">Select a masterclass</span>
+              <span class="text-xs text-gray-400">▼</span>
             </button>
 
-            <button
-              id="professional-info-button"
-              type="button"
-              class="rounded bg-[#ff4c00] px-5 py-2.5 font-bold text-white transition hover:bg-[#e64400] focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20"
-            >
-              Next
-            </button>
+            <div id="masterclassDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg">
+            </div>
+
+            <input type="hidden" id="masterclass" name="masterclass" required />
           </div>
         </div>
 
-        <!-- Masterclass Information -->
-        <div id="masterclass-info" class="hidden">
-          <div class="mb-5">
-            <label for="masterclassButton" class="mb-2 block text-sm font-medium text-gray-700">
-              Select Masterclass
-            </label>
+        <div class="mb-5">
+          <label for="sessionButton" class="mb-2 block text-sm font-medium text-gray-700">
+            Start Date
+          </label>
 
-            <div class="relative">
-              <button
-                type="button"
-                id="masterclassButton"
-                class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-              >
-                <span id="masterclassSelected">Select a masterclass</span>
-                <span class="text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="masterclassDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-
-              <input type="hidden" id="masterclass" name="masterclass" required />
-            </div>
-          </div>
-
-          <div class="mb-5">
-            <label for="sessionButton" class="mb-2 block text-sm font-medium text-gray-700">
-              Start Date
-            </label>
-
-            <div class="relative">
-              <button
-                type="button"
-                id="sessionButton"
-                disabled
-                class="flex w-full items-center justify-between rounded border border-gray-300 bg-gray-100 px-3 py-2.5 text-left text-sm text-gray-400 outline-none transition disabled:cursor-not-allowed disabled:opacity-70 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-              >
-                <span id="sessionSelected">Select a masterclass first</span>
-                <span class="text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="sessionDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-
-              <input type="hidden" id="session" name="session" required />
-            </div>
-          </div>
-
-          <div class="mb-5">
-            <label for="ticketButton" class="mb-2 block text-sm font-medium text-gray-700">
-              Ticket Type
-            </label>
-
-            <div class="relative">
-              <button
-                type="button"
-                id="ticketButton"
-                class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-              >
-                <span id="ticketSelected">Select ticket type</span>
-                <span class="text-xs text-gray-400">▼</span>
-              </button>
-
-              <div
-                id="ticketDropdown"
-                class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg"
-              ></div>
-
-              <input type="hidden" id="ticket" name="ticket" required />
-            </div>
-          </div>
-
-          <div class="mb-6">
-            <label for="learningGoal" class="mb-2 block text-sm font-medium text-gray-700">
-              What do you hope to learn?
-            </label>
-
-            <textarea
-              id="learningGoal"
-              name="learning_goal"
-              rows="3"
-              placeholder="Tell us what you hope to gain from this masterclass..."
-              class="w-full resize-none rounded border border-gray-300 px-3 py-2.5 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"
-            ></textarea>
-          </div>
-
-          <div class="flex items-center gap-3">
-            <button
-              id="back-to-professional-button"
-              type="button"
-              class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            >
-              Back
+          <div class="relative">
+            <button type="button" id="sessionButton" disabled
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-gray-100 px-3 py-2.5 text-left text-sm text-gray-400 outline-none transition disabled:cursor-not-allowed disabled:opacity-70 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="sessionSelected">Select a masterclass first</span>
+              <span class="text-xs text-gray-400">▼</span>
             </button>
 
-            <button
-              id="payNowButton"
-              type="submit"
-              class="rounded bg-[#ff4c00] px-5 py-2.5 font-bold text-white transition hover:bg-[#e64400] focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20"
-            >
+            <div id="sessionDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-full overflow-y-auto rounded border border-gray-200 bg-white shadow-lg">
+            </div>
+
+            <input type="hidden" id="session" name="session" required />
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <label for="ticketButton" class="mb-2 block text-sm font-medium text-gray-700">
+            Ticket Type
+          </label>
+
+          <div class="relative">
+            <button type="button" id="ticketButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="ticketSelected">Select ticket type</span>
+              <span class="text-xs text-gray-400">▼</span>
+            </button>
+
+            <div id="ticketDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
+            </div>
+
+            <input type="hidden" id="ticket" name="ticket" required />
+          </div>
+        </div>
+
+        
+        <div class="mb-5">
+          <label for="preferredModeButton" class="mb-2 block text-sm font-medium text-gray-700">
+            Preferred Mode
+          </label>
+
+          <div class="relative">
+            <button type="button" id="preferredModeButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="preferredModeSelected">Select preferred mode</span>
+              <span class="text-xs text-gray-400">▼</span>
+            </button>
+
+            <div id="preferredModeDropdown"
+              class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
+              <button type="button" data-value="online"
+                class="block w-full px-3 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+                Online
+              </button>
+
+              <button type="button" data-value="physical"
+                class="block w-full px-3 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
+                Physical
+              </button>
+            </div>
+
+            <input type="hidden" id="preferredMode" name="preferredMode" required />
+          </div>
+
+          <p id="preferredModeError" class="mt-1 hidden text-sm text-red-500"></p>
+        </div>
+
+        <div class="mb-5">
+          <label for="learningGoal" class="mb-2 block text-sm font-medium text-gray-700">
+            What do you hope to learn?
+          </label>
+
+          <textarea id="learningGoal" name="learning_goal" rows="3"
+            placeholder="Tell us what you hope to gain from this masterclass..."
+            class="w-full resize-none rounded border border-gray-300 px-3 py-2.5 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"></textarea>
+        </div>
+
+        <div class="mt-2">
+          <p class="mb-3 text-sm font-medium text-gray-700">Payment Option</p>
+
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <button id="payNowButton" type="button"
+              class="rounded bg-[#ff4c00] px-5 py-3 font-bold text-white transition hover:bg-[#e64400] focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20">
               Pay Now
             </button>
+
+            <button id="payLaterButton" type="button"
+              class="rounded border border-[#ff4c00] bg-white px-5 py-3 font-bold text-[#ff4c00] transition hover:bg-[#fff3ed] focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20">
+              Pay Later
+            </button>
           </div>
         </div>
-      </form>
 
-       <p class="text-[11px] pt-6 leading-4">By clicking the Pay Now button, you agree to Orange VFX’s terms of acceptable use and Data Processing Agreement.</p>
 
-      <script src="https://checkout.flutterwave.com/v3.js"></script>
-      <script src="./scripts/country_selection.js"></script>
-      <script src="./scripts/main.js"></script>
-      <script src="./scripts/dropdown.js"></script>
-      <script src="./scripts/masterclass.js"></script>
-      <script src="./scripts/flutterwave.js"></script>
-    </div>
 
-   
-  </body>
+        <div class="mt-3 flex">
+          <button id="back-to-professional-button" type="button"
+            class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-200">
+            Back
+          </button>
+        </div>
+
+
+      </div>
+    </form>
+
+    <p class="text-[11px] pt-6 leading-4">By clicking the Pay Now button, you agree to Orange VFX’s terms of acceptable
+      use and Data Processing Agreement.</p>
+
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="./scripts/country_selection.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/dropdown.js"></script>
+    <script src="./scripts/masterclass.js"></script>
+    <script src="./scripts/flutterwave.js"></script>
+  </div>
+
+
+</body>
+
 </html>
