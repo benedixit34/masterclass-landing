@@ -10,6 +10,8 @@ const backToProfessionalButton = document.getElementById(
   "back-to-professional-button",
 );
 
+const payLaterButton = document.getElementById("pay-later-btn")
+
 personalInfoButton.addEventListener("click", (event) => {
   event.stopPropagation();
 
