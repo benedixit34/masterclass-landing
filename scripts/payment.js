@@ -7,8 +7,8 @@ const ticketPrices = {
     vip: 300000
 };
 
-const API_URL = "http://localhost:3000/api/bookings";
-const SAVE_BOOKING_URL = "http://localhost:3000/api/bookings/save";
+const API_URL = "https://orange-payment-api.vercel.app/api/bookings";
+const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
 
 function showError(inputId, message) {
     const input = document.getElementById(inputId);
