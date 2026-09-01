@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-   <link rel="icon" href="./assets/favicon.ico" />
+    <link rel="icon" href="./assets/favicon.ico" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,12 +14,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <title>Payment Status</title>
+    <title>Booking Status</title>
   </head>
 
   <body class="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12 font-[Poppins]">
-    <!-- Payment Status Card -->
     <main class="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg">
+
       <div
         id="statusIcon"
         class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
@@ -45,9 +46,10 @@
           class="mt-3 hidden items-center justify-between border-t border-gray-200 pt-3"
         >
           <span class="text-sm text-gray-500">Reference</span>
+
           <span
             id="paymentReference"
-            class="text-sm font-medium text-gray-700"
+            class="max-w-[200px] truncate text-sm font-medium text-gray-700"
           ></span>
         </div>
       </div>
@@ -114,19 +116,60 @@
           </svg>
         `;
 
-        statusTitle.textContent = "Payment Successful!";
+        statusTitle.textContent = "Booking Confirmed";
 
         statusMessage.textContent =
           "Your payment has been received and your masterclass booking has been confirmed.";
 
         paymentStatus.textContent = "Confirmed";
-        paymentStatus.classList.add("text-green-600");
+        paymentStatus.className = "text-sm font-medium text-green-600";
 
         additionalMessage.textContent =
           "A confirmation and further details will be sent to your email address.";
 
         primaryButton.textContent = "Back to Home";
-      } else {
+      }
+
+      else if (status === "pending") {
+        statusIcon.className =
+          "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-50";
+
+        statusIcon.innerHTML = `
+          <svg
+            class="h-10 w-10 text-yellow-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 6v6l4 2"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="9"
+            />
+          </svg>
+        `;
+
+        statusTitle.textContent = "Booking Received";
+
+        statusMessage.textContent =
+          "Your masterclass booking has been received. Payment has not been made yet.";
+
+        paymentStatus.textContent = "Payment Pending";
+        paymentStatus.className = "text-sm font-medium text-yellow-600";
+
+        additionalMessage.textContent =
+          "Our team will contact you with payment instructions and the next steps.";
+
+        primaryButton.textContent = "Back to Home";
+      }
+
+      else {
         statusIcon.className =
           "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-50";
 
@@ -146,13 +189,13 @@
           </svg>
         `;
 
-        statusTitle.textContent = "Payment Failed";
+        statusTitle.textContent = "Booking Failed";
 
         statusMessage.textContent =
-          "We couldn't complete your payment. Please try again or use another payment method.";
+          "We couldn't complete your booking. Please try again.";
 
         paymentStatus.textContent = "Failed";
-        paymentStatus.classList.add("text-red-500");
+        paymentStatus.className = "text-sm font-medium text-red-500";
 
         additionalMessage.textContent =
           "If money was deducted from your account, please contact us with your payment reference.";
@@ -162,3 +205,4 @@
     </script>
   </body>
 </html>
+

@@ -1,4 +1,5 @@
-const paymentForm = document.getElementById("paymentForm");
+const payNowBtn = document.getElementById("pay-now-btn");
+const payLaterBtn = document.getElementById("pay-later-btn");
 
 const ticketPrices = {
     "early-bird": 180000,
@@ -7,6 +8,7 @@ const ticketPrices = {
 };
 
 const API_URL = "http://localhost:3000/api/bookings";
+const SAVE_BOOKING_URL = "http://localhost:3000/api/bookings/save";
 
 function showError(inputId, message) {
     const input = document.getElementById(inputId);
@@ -44,6 +46,7 @@ function validateBookingForm() {
     const phone = document.getElementById("phone").value.trim();
     const profile = document.getElementById("profile").value;
     const experience = document.getElementById("experience").value;
+    const preferredMode = document.getElementById("preferredMode").value;
     const masterclass = document.getElementById("masterclass").value;
     const session = document.getElementById("session").value;
     const ticket = document.getElementById("ticket").value;
@@ -54,6 +57,7 @@ function validateBookingForm() {
         "phone",
         "profile",
         "experience",
+        "preferredMode",
         "masterclass",
         "session",
         "ticket"
@@ -87,6 +91,11 @@ function validateBookingForm() {
         isValid = false;
     }
 
+    if (!preferredMode) {
+        showError("preferredMode", "Please select your preferred mode.");
+        isValid = false;
+    }
+
     if (!masterclass) {
         showError("masterclass", "Please select a masterclass.");
         isValid = false;
@@ -105,24 +114,21 @@ function validateBookingForm() {
     return isValid;
 }
 
-paymentForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    if (!validateBookingForm()) {
-        return;
-    }
-
+function getBookingData() {
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const countryCode = document.getElementById("countryCode").value;
     const profile = document.getElementById("profile").value;
     const experience = document.getElementById("experience").value;
+    const preferredMode = document.getElementById("preferredMode").value;
 
     let tools = [];
 
     try {
-        tools = JSON.parse(document.getElementById("tools").value || "[]");
+        tools = JSON.parse(
+            document.getElementById("tools").value || "[]"
+        );
     } catch (error) {
         console.error("Invalid tools value:", error);
     }
@@ -135,17 +141,18 @@ paymentForm.addEventListener("submit", function (event) {
 
     if (!amount) {
         showError("ticket", "Invalid ticket type.");
-        return;
+        return null;
     }
 
     const fullPhoneNumber = `${countryCode}${phone.replace(/^0+/, "")}`;
 
-    const booking = {
+    return {
         name,
         email,
         phone: fullPhoneNumber,
         profile,
         experience,
+        preferredMode,
         tools,
         masterclass,
         session,
@@ -153,17 +160,31 @@ paymentForm.addEventListener("submit", function (event) {
         amount,
         learningGoal
     };
+}
+
+payNowBtn.addEventListener("click", function () {
+    if (!validateBookingForm()) {
+        return;
+    }
+
+    const booking = getBookingData();
+
+    if (!booking) {
+        return;
+    }
+
+    const txRef = "masterclass-" + Date.now();
 
     FlutterwaveCheckout({
         public_key: "FLWPUBK_TEST-4ca42aac0399cba2e9f8507cb9eb1807-X",
-        tx_ref: "masterclass-" + Date.now(),
-        amount,
+        tx_ref: txRef,
+        amount: booking.amount,
         currency: "NGN",
         payment_options: "card, banktransfer, ussd",
         customer: {
-            email,
-            name,
-            phone_number: fullPhoneNumber
+            email: booking.email,
+            name: booking.name,
+            phone_number: booking.phone
         },
         customizations: {
             title: "Orange VFX Masterclass Booking",
@@ -177,12 +198,29 @@ paymentForm.addEventListener("submit", function (event) {
                 return;
             }
 
-            await submitBookingToAPI(booking, data.transaction_id);
+            await submitBookingToAPI(
+                booking,
+                data.transaction_id
+            );
         },
         onclose: function () {
             console.log("Flutterwave checkout closed.");
         }
     });
+});
+
+payLaterBtn.addEventListener("click", async function () {
+    if (!validateBookingForm()) {
+        return;
+    }
+
+    const booking = getBookingData();
+
+    if (!booking) {
+        return;
+    }
+
+    await saveBookingForLater(booking);
 });
 
 async function submitBookingToAPI(booking, transactionId) {
@@ -199,10 +237,12 @@ async function submitBookingToAPI(booking, transactionId) {
                 phone: booking.phone,
                 profile: booking.profile,
                 experience: booking.experience,
+                preferredMode: booking.preferredMode,
                 tools: booking.tools,
                 masterclass: booking.masterclass,
                 session: booking.session,
                 ticket: booking.ticket,
+                amount: booking.amount,
                 learningGoal: booking.learningGoal
             })
         });
@@ -218,8 +258,6 @@ async function submitBookingToAPI(booking, transactionId) {
             return;
         }
 
-        console.log("Booking created successfully:", result);
-
         window.location.href =
             `./status.html?status=success&reference=${encodeURIComponent(transactionId)}`;
     } catch (error) {
@@ -229,3 +267,48 @@ async function submitBookingToAPI(booking, transactionId) {
             `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
     }
 }
+
+async function saveBookingForLater(booking) {
+    try {
+        const response = await fetch(SAVE_BOOKING_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: booking.name,
+                email: booking.email,
+                phone: booking.phone,
+                profile: booking.profile,
+                experience: booking.experience,
+                preferredMode: booking.preferredMode,
+                tools: booking.tools,
+                masterclass: booking.masterclass,
+                session: booking.session,
+                ticket: booking.ticket,
+                amount: booking.amount,
+                learningGoal: booking.learningGoal
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            console.error("Save booking failed:", result);
+
+            window.location.href =
+                "./status.html?status=failed";
+
+            return;
+        }
+
+        window.location.href =
+            "./status.html?status=pending";
+    } catch (error) {
+        console.error("Unable to save booking:", error);
+
+        window.location.href =
+            "./status.html?status=failed";
+    }
+}
+
