@@ -9,6 +9,10 @@ const backToPersonalButton = document.getElementById("back-to-personal-button");
 const backToProfessionalButton = document.getElementById(
   "back-to-professional-button",
 );
+const masterclassInfoButton = document.getElementById("masterclass-info-button");
+const backToMasterclassButton = document.getElementById("back-to-masterclass-button");
+
+const paymentInfo = document.getElementById("payment-info");
 
 const payLaterButton = document.getElementById("pay-later-btn")
 
@@ -67,13 +71,24 @@ personalInfoButton.addEventListener("click", (event) => {
   if (!phone.reportValidity()) return;
 
   personalInfo.classList.add("hidden");
-  professionalInfo.classList.remove("hidden");
+  masterclassInfo.classList.remove("hidden");
 });
 
 backToPersonalButton.addEventListener("click", () => {
-  professionalInfo.classList.add("hidden");
+  masterclassInfo.classList.add("hidden");
 
   personalInfo.classList.remove("hidden");
+});
+
+masterclassInfoButton.addEventListener("click", () => {
+  masterclassInfo.classList.add("hidden");
+  professionalInfo.classList.remove("hidden");
+});
+
+
+backToMasterclassButton.addEventListener("click", () => {
+  professionalInfo.classList.add("hidden");
+  masterclassInfo.classList.remove("hidden");
 });
 
 professionalInfoButton.addEventListener("click", () => {
@@ -103,11 +118,11 @@ professionalInfoButton.addEventListener("click", () => {
   }
 
   professionalInfo.classList.add("hidden");
-  masterclassInfo.classList.remove("hidden");
+  paymentInfo.classList.remove("hidden");
 });
 
-backToProfessionalButton.addEventListener("click", () => {
-  masterclassInfo.classList.add("hidden");
+// backToProfessionalButton.addEventListener("click", () => {
+//   masterclassInfo.classList.add("hidden");
 
-  professionalInfo.classList.remove("hidden");
-});
+//   professionalInfo.classList.remove("hidden");
+// });

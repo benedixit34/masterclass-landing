@@ -39,6 +39,15 @@ async function loadMasterclassData() {
 function renderMasterclasses() {
     masterclassDropdown.innerHTML = "";
 
+    if (masterclassData.length === 0) {
+        masterclassDropdown.innerHTML = `
+            <div class="px-3 py-2.5 text-sm text-gray-500">
+                No masterclasses available
+            </div>
+        `;
+        return;
+    }
+
     masterclassData.forEach((masterclass, index) => {
         const item = document.createElement("button");
 
@@ -61,13 +70,12 @@ function renderMasterclasses() {
 function selectMasterclass(masterclass) {
     masterclassSelected.textContent = masterclass.name;
     masterclassInput.value = masterclass.id;
-
     masterclassDropdown.classList.add("hidden");
 
-    sessionSelected.textContent = "Select a session";
+    sessionSelected.textContent = "Select a cohort/start date";
     sessionInput.value = "";
 
-    renderSessions(masterclass.sessions);
+    renderSessions(masterclass.sessions || []);
 }
 
 function renderSessions(sessions = []) {
@@ -75,12 +83,13 @@ function renderSessions(sessions = []) {
 
     if (sessions.length === 0) {
         sessionButton.disabled = true;
-        sessionSelected.textContent = "No sessions available";
+        sessionSelected.textContent = "No cohorts available";
+        sessionInput.value = "";
         return;
     }
 
     sessionButton.disabled = false;
-    sessionSelected.textContent = "Select a session";
+    sessionSelected.textContent = "Select a cohort/start date";
 
     sessions.forEach((session, index) => {
         const item = document.createElement("button");
@@ -104,11 +113,24 @@ function renderSessions(sessions = []) {
 }
 
 function renderTickets() {
+    if (!ticketDropdown) {
+        return;
+    }
+
     ticketDropdown.innerHTML = "";
 
     const availableTickets = ticketData.filter(
         (ticket) => ticket.available !== false
     );
+
+    if (availableTickets.length === 0) {
+        ticketDropdown.innerHTML = `
+            <div class="px-3 py-2.5 text-sm text-gray-500">
+                No tickets available
+            </div>
+        `;
+        return;
+    }
 
     availableTickets.forEach((ticket, index) => {
         const item = document.createElement("button");
@@ -149,7 +171,13 @@ function formatPrice(price) {
 
 masterclassButton.addEventListener("click", (event) => {
     event.stopPropagation();
+
     masterclassDropdown.classList.toggle("hidden");
+    sessionDropdown.classList.add("hidden");
+
+    if (ticketDropdown) {
+        ticketDropdown.classList.add("hidden");
+    }
 });
 
 sessionButton.addEventListener("click", (event) => {
@@ -160,12 +188,22 @@ sessionButton.addEventListener("click", (event) => {
     }
 
     sessionDropdown.classList.toggle("hidden");
+    masterclassDropdown.classList.add("hidden");
+
+    if (ticketDropdown) {
+        ticketDropdown.classList.add("hidden");
+    }
 });
 
-ticketButton.addEventListener("click", (event) => {
-    event.stopPropagation();
-    ticketDropdown.classList.toggle("hidden");
-});
+if (ticketButton) {
+    ticketButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+
+        ticketDropdown.classList.toggle("hidden");
+        masterclassDropdown.classList.add("hidden");
+        sessionDropdown.classList.add("hidden");
+    });
+}
 
 document.addEventListener("click", (event) => {
     if (
@@ -183,6 +221,8 @@ document.addEventListener("click", (event) => {
     }
 
     if (
+        ticketButton &&
+        ticketDropdown &&
         !ticketButton.contains(event.target) &&
         !ticketDropdown.contains(event.target)
     ) {
@@ -193,3 +233,4 @@ document.addEventListener("click", (event) => {
 sessionButton.disabled = true;
 
 loadMasterclassData();
+
