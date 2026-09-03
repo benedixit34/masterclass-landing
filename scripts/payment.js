@@ -7,7 +7,6 @@ const ticketPrices = {
     vip: 300000
 };
 
-const PAYMENT_URL = "https://orange-payment-api.vercel.app/api/bookings";
 const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
 
 
@@ -176,7 +175,7 @@ function getBookingData() {
     };
 }
 
-payNowBtn.addEventListener("click", function () {
+payNowBtn.addEventListener("click", async function () {
     setButtonLoading(payNowBtn, "Processing...");
     if (!validateBookingForm()) {
         return;
@@ -188,6 +187,9 @@ payNowBtn.addEventListener("click", function () {
         return;
     }
 
+    await saveBookingForLater(booking);
+
+    
     const txRef = "masterclass-" + Date.now();
 
     FlutterwaveCheckout({
@@ -209,14 +211,13 @@ payNowBtn.addEventListener("click", function () {
         callback: async (data) => {
             if (data.status !== "successful" || !data.transaction_id) {
                 window.location.href =
-                    `./status.html?status=failed&reference=${encodeURIComponent(data.transaction_id || "")}`;
+                    `./status.html?status=pending&reference=${encodeURIComponent(data.transaction_id || "")}`;
                 return;
+            } else {
+                window.location.href = `./status.html?status=success&reference=${encodeURIComponent(data.transaction_id)}`;
             }
 
-            await submitBookingToAPI(
-                booking,
-                data.transaction_id
-            );
+
         },
         onclose: function () {
             console.log("Flutterwave checkout closed.");
@@ -237,53 +238,10 @@ payLaterBtn.addEventListener("click", async function () {
     }
 
     await saveBookingForLater(booking);
+    window.location.href = "./status.html?status=pending";
 });
 
-async function submitBookingToAPI(booking, transactionId) {
-    try {
-        const response = await fetch(PAYMENT_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                transactionId,
-                name: booking.name,
-                email: booking.email,
-                phone: booking.phone,
-                profile: booking.profile,
-                experience: booking.experience,
-                preferredMode: booking.preferredMode,
-                tools: booking.tools,
-                masterclass: booking.masterclass,
-                session: booking.session,
-                ticket: booking.ticket,
-                amount: booking.amount,
-                learningGoal: booking.learningGoal,
-                futureInterest: booking.futureInterest
-            })
-        });
 
-        const result = await response.json();
-
-        if (!response.ok || !result.success) {
-            console.error("Booking API failed:", result);
-
-            window.location.href =
-                `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
-
-            return;
-        }
-
-        window.location.href =
-            `./status.html?status=success&reference=${encodeURIComponent(transactionId)}`;
-    } catch (error) {
-        console.error("Unable to submit booking:", error);
-
-        window.location.href =
-            `./status.html?status=failed&reference=${encodeURIComponent(transactionId)}`;
-    }
-}
 
 async function saveBookingForLater(booking) {
     try {
@@ -319,9 +277,6 @@ async function saveBookingForLater(booking) {
 
             return;
         }
-
-        window.location.href =
-            "./status.html?status=pending";
     } catch (error) {
         console.error("Unable to save booking:", error);
 
