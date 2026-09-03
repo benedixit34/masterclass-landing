@@ -208,11 +208,11 @@ professionalInfoButton.addEventListener("click", () => {
   updateProgress(4);
 });
 
-// backToProfessionalButton.addEventListener("click", () => {
-//   masterclassInfo.classList.add("hidden");
+backToProfessionalButton.addEventListener("click", () => {
+  paymentInfo.classList.add("hidden");
 
-//   professionalInfo.classList.remove("hidden");
-// });
+  professionalInfo.classList.remove("hidden");
+});
 
 
 

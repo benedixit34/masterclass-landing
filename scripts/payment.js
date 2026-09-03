@@ -10,6 +10,18 @@ const ticketPrices = {
 const PAYMENT_URL = "https://orange-payment-api.vercel.app/api/bookings";
 const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
 
+
+function setButtonLoading(button, loadingText) {
+  button.disabled = true;
+
+  button.innerHTML = `
+    <span class="flex items-center justify-center gap-2">
+      <span class="spinner"></span>
+      <span>${loadingText}</span>
+    </span>
+  `;
+}
+
 function showError(inputId, message) {
     const input = document.getElementById(inputId);
     const error = document.getElementById(`${inputId}Error`);
@@ -163,6 +175,7 @@ function getBookingData() {
 }
 
 payNowBtn.addEventListener("click", function () {
+    setButtonLoading(payNowBtn, "Processing...");
     if (!validateBookingForm()) {
         return;
     }
@@ -210,6 +223,7 @@ payNowBtn.addEventListener("click", function () {
 });
 
 payLaterBtn.addEventListener("click", async function () {
+    setButtonLoading(payLaterBtn, "Processing...");
     if (!validateBookingForm()) {
         return;
     }
