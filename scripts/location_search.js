@@ -38,12 +38,8 @@ locationInput.addEventListener("input", () => {
 
   locationDropdown.innerHTML = "";
 
-  if (!search) {
+  if (!search || !locationData.length) {
     locationDropdown.classList.add("hidden");
-    return;
-  }
-
-  if (!locationData.length) {
     return;
   }
 
@@ -51,6 +47,7 @@ locationInput.addEventListener("input", () => {
 
   locationData.forEach((country) => {
     const countryName = country.name;
+    const isNigeria = countryName.toLowerCase() === "nigeria";
 
     if (countryName.toLowerCase().includes(search)) {
       results.push({
@@ -59,6 +56,7 @@ locationInput.addEventListener("input", () => {
         state: "",
         country: countryName,
         label: countryName,
+        priority: isNigeria ? 0 : 2,
       });
     }
 
@@ -66,25 +64,40 @@ locationInput.addEventListener("input", () => {
       country.states.forEach((state) => {
         const stateName = state.name;
 
-        if (stateName.toLowerCase().includes(search)) {
+        if (
+          stateName.toLowerCase().includes(search) ||
+          `${stateName}, ${countryName}`.toLowerCase().includes(search)
+        ) {
           results.push({
             type: "state",
             city: "",
             state: stateName,
             country: countryName,
             label: `${stateName}, ${countryName}`,
+            priority: isNigeria ? 0 : 2,
           });
         }
 
         if (Array.isArray(state.cities)) {
           state.cities.forEach((cityName) => {
-            if (cityName.toLowerCase().includes(search)) {
+            const fullLocation =
+              `${cityName}, ${stateName}, ${countryName}`.toLowerCase();
+
+            const cityCountryLocation =
+              `${cityName}, ${countryName}`.toLowerCase();
+
+            if (
+              cityName.toLowerCase().includes(search) ||
+              fullLocation.includes(search) ||
+              cityCountryLocation.includes(search)
+            ) {
               results.push({
                 type: "city",
                 city: cityName,
                 state: stateName,
                 country: countryName,
                 label: `${cityName}, ${stateName}, ${countryName}`,
+                priority: isNigeria ? 0 : 2,
               });
             }
           });
@@ -97,7 +110,25 @@ locationInput.addEventListener("input", () => {
     new Map(results.map((item) => [item.label, item])).values()
   );
 
-  const limitedResults = uniqueResults.slice(0, 10);
+  const sortedResults = uniqueResults.sort((a, b) => {
+    const aSearch = a.label.toLowerCase();
+    const bSearch = b.label.toLowerCase();
+
+    const aStartsWith = aSearch.startsWith(search);
+    const bStartsWith = bSearch.startsWith(search);
+
+    if (a.priority !== b.priority) {
+      return a.priority - b.priority;
+    }
+
+    if (aStartsWith !== bStartsWith) {
+      return bStartsWith - aStartsWith;
+    }
+
+    return a.label.localeCompare(b.label);
+  });
+
+  const limitedResults = sortedResults.slice(0, 10);
 
   if (!limitedResults.length) {
     locationDropdown.innerHTML = `
