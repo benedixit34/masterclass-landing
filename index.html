@@ -21,18 +21,79 @@
 
     <img src="./assets/Orange Seed Initiative Approved Logo.png" alt="Orange Seed Initiative" class="w-16 mb-4" />
     <h1 class="mb-2 font-[Montserrat] text-3xl font-semibold tracking-tight">Masterclass Bookings</h1>
-    <p class="mb-4 text-sm leading-5">
-      Join the exclusive inner circle for the Master Pipeline Cohort coming in
-      September! VIP members get 48-hour early access to registration, a 10%
-      early-bird discount, and a free ticket to our future 1-Day AI Creative
-      Bootcamp (TBA). Seats are strictly limited.
-    </p>
+
 
     <form id="paymentForm">
-      <!-- Personal Information -->
+      <div id="formProgress" class="mb-8">
+        <div class="flex items-center justify-between">
+
+      
+          <div class="flex flex-1 items-center">
+            <div class="flex flex-col items-center">
+              <div id="step1"
+                class="step-circle flex h-8 w-8 items-center justify-center rounded-full bg-[#ff4c00] text-xs font-bold text-white transition-all">
+                1
+              </div>
+              <span id="step1Label" class="mt-2 text-[10px] font-medium text-[#ff4c00] sm:text-xs">
+                Personal
+              </span>
+            </div>
+
+            <div id="line1" class="mx-2 h-0.5 flex-1 bg-gray-200 transition-all">
+            </div>
+          </div>
+
+
+          <div class="flex flex-1 items-center">
+            <div class="flex flex-col items-center">
+              <div id="step2"
+                class="step-circle flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-bold text-gray-500 transition-all">
+                2
+              </div>
+              <span id="step2Label" class="mt-2 text-[10px] font-medium text-gray-400 sm:text-xs">
+                Masterclass
+              </span>
+            </div>
+
+            <div id="line2" class="mx-2 h-0.5 flex-1 bg-gray-200 transition-all">
+            </div>
+          </div>
+
+
+          <div class="flex flex-1 items-center">
+            <div class="flex flex-col items-center">
+              <div id="step3"
+                class="step-circle flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-bold text-gray-500 transition-all">
+                3
+              </div>
+              <span id="step3Label" class="mt-2 text-[10px] font-medium text-gray-400 sm:text-xs">
+                Professional
+              </span>
+            </div>
+
+            <div id="line3" class="mx-2 h-0.5 flex-1 bg-gray-200 transition-all">
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex flex-col items-center">
+            <div id="step4"
+              class="step-circle flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-bold text-gray-500 transition-all">
+              4
+            </div>
+            <span id="step4Label" class="mt-2 text-[10px] font-medium text-gray-400 sm:text-xs">
+              Payment
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+
       <div id="personal-info">
         <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="name">Full Name<span class="text-red-500">*</span></label>
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="name">Full Name<span
+              class="text-red-500">*</span></label>
           <input
             class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
             id="name" type="text" placeholder="Enter Full Name" required />
@@ -40,7 +101,8 @@
         </div>
 
         <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="email">Email Address<span class="text-red-500">*</span></label>
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="email">Email Address<span
+              class="text-red-500">*</span></label>
           <input
             class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
             id="email" type="email" placeholder="Enter your email" required />
@@ -48,7 +110,8 @@
         </div>
 
         <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="phone">Phone Number (WhatsApp preferred)<span class="text-red-500">*</span></label>
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="phone">Phone Number (WhatsApp
+            preferred)<span class="text-red-500">*</span></label>
           <div class="relative flex w-full gap-x-4">
             <button type="button" id="countryButton"
               class="flex items-center gap-2 rounded-l border border-gray-300 bg-gray-50 px-3 py-2 text-gray-700 focus:outline-none">
@@ -71,12 +134,13 @@
           <p id="phoneError" class="mt-1 hidden text-xs text-red-500"></p>
         </div>
 
-          <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="location">Where are you based? (City, Country)</label>
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="location">Where are you based? (City,
+            Country)</label>
           <input
             class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
             id="location" type="text" placeholder="e.g., Lagos, Nigeria" required />
-        
+
         </div>
 
 
@@ -87,8 +151,8 @@
         </button>
       </div>
 
-<!-- Masterclass Information -->
-    <div id="masterclass-info" class="hidden">
+
+      <div id="masterclass-info" class="hidden">
         <div class="mb-5">
           <label for="masterclassButton" class="mb-2 block text-sm font-medium text-gray-700">
             Which Masterclass are you signing up for?
@@ -130,7 +194,7 @@
 
               <button type="button" data-value="Virtual -  Livestream"
                 class="block w-full px-3 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
-                Virtual -  Livestream
+                Virtual - Livestream
               </button>
             </div>
 
@@ -140,7 +204,7 @@
           <p id="preferredModeError" class="mt-1 hidden text-sm text-red-500"></p>
         </div>
 
-         <div class="mb-5">
+        <div class="mb-5">
           <label for="sessionButton" class="mb-2 block text-sm font-medium text-gray-700">
             Which cohort/start date works for you?
           </label>
@@ -160,20 +224,21 @@
           </div>
         </div>
 
-     <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="futureInterest">Any other Masterclasses you'd like to see us run?</label>
+        <div class="mb-4">
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="futureInterest">Any other Masterclasses
+            you'd like to see us run?</label>
           <input
             class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
             id="futureInterest" type="text" placeholder="Enter your future interest" />
         </div>
 
-       
 
 
-        
-        
 
-       
+
+
+
+
         <!--
         <div class="mt-2">
           <p class="mb-3 text-sm font-medium text-gray-700">Payment Option</p>
@@ -201,7 +266,7 @@
         </div>
       -->
 
-      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3">
           <button id="back-to-personal-button" type="button"
             class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50">
             Back
@@ -240,7 +305,7 @@
 
         <div class="mb-6">
           <label class="mb-2 block text-sm font-medium text-gray-700">
-           What's your current experience level?
+            What's your current experience level?
           </label>
 
           <div class="relative">
@@ -312,7 +377,7 @@
 
 
 
-       <div id="payment-info" class="hidden">
+      <div id="payment-info" class="hidden">
         <div class="mb-4">
           <label for="ticketButton" class="mb-2 block text-sm font-medium text-gray-700">
             Ticket Type
@@ -344,9 +409,9 @@
             class="w-full resize-none rounded border border-gray-300 px-3 py-2.5 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10"></textarea>
         </div>
 
-         <div class="mb-6">
+        <div class="mb-6">
           <label class="mb-2 block text-sm font-medium text-gray-700">
-           How did you hear about us?
+            How did you hear about us?
           </label>
 
           <div class="relative">
@@ -369,7 +434,7 @@
         <div class="flex items-center gap-3">
           <button id="pay-later-btn" type="button"
             class="rounded border border-gray-300 px-5 py-2.5 font-medium text-gray-700 transition hover:bg-gray-50">
-           Pay Later
+            Pay Later
           </button>
 
           <button id="pay-now-btn" type="button"
@@ -380,22 +445,23 @@
 
       </div>
 
-  
-    
- <p class="text-[11px] pt-6 leading-4">By clicking the Pay Now button, you agree to Orange VFX’s terms of acceptable
-      use and Data Processing Agreement.</p>
+
+
+      <p class="text-[11px] pt-6 leading-4">By clicking the Pay Now button, you agree to Orange VFX’s terms of
+        acceptable
+        use and Data Processing Agreement.</p>
 
     </form>
   </div>
 
-   
 
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
-    <script src="./scripts/country_selection.js"></script>
-    <script src="./scripts/main.js"></script>
-    <script src="./scripts/dropdown.js"></script>
-    <script src="./scripts/masterclass.js"></script>
-    <script src="./scripts/payment.js"></script>
+
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="./scripts/country_selection.js"></script>
+  <script src="./scripts/main.js"></script>
+  <script src="./scripts/dropdown.js"></script>
+  <script src="./scripts/masterclass.js"></script>
+  <script src="./scripts/payment.js"></script>
   </div>
 
 

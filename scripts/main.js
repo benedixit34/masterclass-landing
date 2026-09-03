@@ -16,6 +16,87 @@ const paymentInfo = document.getElementById("payment-info");
 
 const payLaterButton = document.getElementById("pay-later-btn")
 
+
+const steps = {
+  personal: {
+    section: "personal-info",
+    step: 1,
+  },
+  masterclass: {
+    section: "masterclass-info",
+    step: 2,
+  },
+  professional: {
+    section: "professional-info",
+    step: 3,
+  },
+  payment: {
+    section: "payment-info",
+    step: 4,
+  },
+};
+
+function updateProgress(currentStep) {
+  for (let i = 1; i <= 4; i++) {
+    const circle = document.getElementById(`step${i}`);
+    const label = document.getElementById(`step${i}Label`);
+
+    if (!circle || !label) continue;
+
+    if (i <= currentStep) {
+      circle.classList.remove(
+        "bg-gray-200",
+        "text-gray-500"
+      );
+
+      circle.classList.add(
+        "bg-[#ff4c00]",
+        "text-white"
+      );
+
+      label.classList.remove(
+        "text-gray-400"
+      );
+
+      label.classList.add(
+        "text-[#ff4c00]"
+      );
+    } else {
+      circle.classList.remove(
+        "bg-[#ff4c00]",
+        "text-white"
+      );
+
+      circle.classList.add(
+        "bg-gray-200",
+        "text-gray-500"
+      );
+
+      label.classList.remove(
+        "text-[#ff4c00]"
+      );
+
+      label.classList.add(
+        "text-gray-400"
+      );
+    }
+  }
+
+  for (let i = 1; i <= 3; i++) {
+    const line = document.getElementById(`line${i}`);
+
+    if (!line) continue;
+
+    if (i < currentStep) {
+      line.classList.remove("bg-gray-200");
+      line.classList.add("bg-[#ff4c00]");
+    } else {
+      line.classList.remove("bg-[#ff4c00]");
+      line.classList.add("bg-gray-200");
+    }
+  }
+}
+
 personalInfoButton.addEventListener("click", (event) => {
   event.stopPropagation();
 
@@ -72,23 +153,28 @@ personalInfoButton.addEventListener("click", (event) => {
 
   personalInfo.classList.add("hidden");
   masterclassInfo.classList.remove("hidden");
+  updateProgress(2);
 });
 
 backToPersonalButton.addEventListener("click", () => {
   masterclassInfo.classList.add("hidden");
 
   personalInfo.classList.remove("hidden");
+  updateProgress(1);
 });
 
 masterclassInfoButton.addEventListener("click", () => {
   masterclassInfo.classList.add("hidden");
   professionalInfo.classList.remove("hidden");
+  updateProgress(3);
 });
 
 
 backToMasterclassButton.addEventListener("click", () => {
   professionalInfo.classList.add("hidden");
   masterclassInfo.classList.remove("hidden");
+
+  updateProgress(2);
 });
 
 professionalInfoButton.addEventListener("click", () => {
@@ -119,6 +205,7 @@ professionalInfoButton.addEventListener("click", () => {
 
   professionalInfo.classList.add("hidden");
   paymentInfo.classList.remove("hidden");
+  updateProgress(4);
 });
 
 // backToProfessionalButton.addEventListener("click", () => {
@@ -126,3 +213,7 @@ professionalInfoButton.addEventListener("click", () => {
 
 //   professionalInfo.classList.remove("hidden");
 // });
+
+
+
+

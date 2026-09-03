@@ -7,7 +7,7 @@ const ticketPrices = {
     vip: 300000
 };
 
-const API_URL = "https://orange-payment-api.vercel.app/api/bookings";
+const PAYMENT_URL = "https://orange-payment-api.vercel.app/api/bookings";
 const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
 
 function showError(inputId, message) {
@@ -225,7 +225,7 @@ payLaterBtn.addEventListener("click", async function () {
 
 async function submitBookingToAPI(booking, transactionId) {
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(PAYMENT_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
