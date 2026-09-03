@@ -134,6 +134,7 @@ function getBookingData() {
     const profile = document.getElementById("profile").value;
     const experience = document.getElementById("experience").value;
     const preferredMode = document.getElementById("preferredMode").value;
+    const futureInterest = document.getElementById("futureInterest").value;
 
     let tools = [];
 
@@ -170,7 +171,8 @@ function getBookingData() {
         session,
         ticket,
         amount,
-        learningGoal
+        learningGoal,
+        futureInterest
     };
 }
 
@@ -257,7 +259,8 @@ async function submitBookingToAPI(booking, transactionId) {
                 session: booking.session,
                 ticket: booking.ticket,
                 amount: booking.amount,
-                learningGoal: booking.learningGoal
+                learningGoal: booking.learningGoal,
+                futureInterest: booking.futureInterest
             })
         });
 
@@ -301,7 +304,8 @@ async function saveBookingForLater(booking) {
                 session: booking.session,
                 ticket: booking.ticket,
                 amount: booking.amount,
-                learningGoal: booking.learningGoal
+                learningGoal: booking.learningGoal,
+                futureInterest: booking.futureInterest
             })
         });
 

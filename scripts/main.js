@@ -9,13 +9,16 @@ const backToPersonalButton = document.getElementById("back-to-personal-button");
 const backToProfessionalButton = document.getElementById(
   "back-to-professional-button",
 );
-const masterclassInfoButton = document.getElementById("masterclass-info-button");
-const backToMasterclassButton = document.getElementById("back-to-masterclass-button");
+const masterclassInfoButton = document.getElementById(
+  "masterclass-info-button",
+);
+const backToMasterclassButton = document.getElementById(
+  "back-to-masterclass-button",
+);
 
 const paymentInfo = document.getElementById("payment-info");
 
-const payLaterButton = document.getElementById("pay-later-btn")
-
+const payLaterButton = document.getElementById("pay-later-btn");
 
 const steps = {
   personal: {
@@ -44,41 +47,21 @@ function updateProgress(currentStep) {
     if (!circle || !label) continue;
 
     if (i <= currentStep) {
-      circle.classList.remove(
-        "bg-gray-200",
-        "text-gray-500"
-      );
+      circle.classList.remove("bg-gray-200", "text-gray-500");
 
-      circle.classList.add(
-        "bg-[#ff4c00]",
-        "text-white"
-      );
+      circle.classList.add("bg-[#ff4c00]", "text-white");
 
-      label.classList.remove(
-        "text-gray-400"
-      );
+      label.classList.remove("text-gray-400");
 
-      label.classList.add(
-        "text-[#ff4c00]"
-      );
+      label.classList.add("text-[#ff4c00]");
     } else {
-      circle.classList.remove(
-        "bg-[#ff4c00]",
-        "text-white"
-      );
+      circle.classList.remove("bg-[#ff4c00]", "text-white");
 
-      circle.classList.add(
-        "bg-gray-200",
-        "text-gray-500"
-      );
+      circle.classList.add("bg-gray-200", "text-gray-500");
 
-      label.classList.remove(
-        "text-[#ff4c00]"
-      );
+      label.classList.remove("text-[#ff4c00]");
 
-      label.classList.add(
-        "text-gray-400"
-      );
+      label.classList.add("text-gray-400");
     }
   }
 
@@ -131,18 +114,21 @@ personalInfoButton.addEventListener("click", (event) => {
   }
 
   const phoneError = document.getElementById("phoneError");
+
   phoneError.textContent = "";
   phoneError.classList.add("hidden");
   phone.classList.remove("border-red-500");
-  const phoneRegex = /^[0-9]{7,15}$/;
-  const phoneNumber = phone.value.replace(/\D/g, "");
 
-  if (!phone.value.trim()) {
+  const phoneRegex = /^[0-9]{7,15}$/;
+  const phoneNumber = phone.value.trim();
+
+  if (!phoneNumber) {
     phoneError.textContent = "Please enter your phone number.";
     phoneError.classList.remove("hidden");
     phone.classList.add("border-red-500");
   } else if (!phoneRegex.test(phoneNumber)) {
-    phoneError.textContent = "Please enter a valid phone number.";
+    phoneError.textContent =
+      "Please enter a valid phone number using numbers only.";
     phoneError.classList.remove("hidden");
     phone.classList.add("border-red-500");
   }
@@ -168,7 +154,6 @@ masterclassInfoButton.addEventListener("click", () => {
   professionalInfo.classList.remove("hidden");
   updateProgress(3);
 });
-
 
 backToMasterclassButton.addEventListener("click", () => {
   professionalInfo.classList.add("hidden");
@@ -213,7 +198,3 @@ backToProfessionalButton.addEventListener("click", () => {
 
   professionalInfo.classList.remove("hidden");
 });
-
-
-
-

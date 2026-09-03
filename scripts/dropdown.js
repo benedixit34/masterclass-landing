@@ -56,6 +56,30 @@ const experienceOptions = [
     { value: "advanced", label: "Advanced" }
 ];
 
+
+const masterclassOptions = [
+  { value: "3d", label: "3D" },
+  { value: "ai", label: "AI" },
+  { value: "graphic-design", label: "Graphic Design" },
+  { value: "motion-design", label: "Motion Design" },
+  { value: "storytelling", label: "Storytelling" },
+  { value: "video-editing", label: "Video Editing" },
+  { value: "vfx", label: "VFX" }
+];
+
+const marketingOptions = [
+    { value: "instagram", label: "Instagram" },
+    { value: "facebook", label: "Facebook" },
+    { value: "linkedin", label: "LinkedIn" },
+    { value: "tiktok", label: "TikTok" },
+    { value: "youtube", label: "YouTube" },
+    { value: "google-search", label: "Google Search" },
+    { value: "friend-colleague", label: "Friend or Colleague" },
+    { value: "whatsapp", label: "WhatsApp" },
+    { value: "website", label: "Website" },
+    { value: "other", label: "Other" }
+];
+
 const creativeTools = [
     {
         category: "Graphic Design",
@@ -93,6 +117,31 @@ const creativeTools = [
     }
 ];
 
+const ticketOptions = [
+    { value: "early-bird", label: "Early Bird — ₦180,000" },
+    { value: "standard", label: "Standard — ₦200,000" },
+    { value: "vip", label: "VIP — ₦300,000" }
+];
+
+const sessionOptions = [
+    { value: "2026-09-05", label: "September 5, 2026" },
+    { value: "2026-11-07", label: "November 7, 2026" },
+    { value: "2027-01-02", label: "January 2, 2027" },
+    { value: "2027-03-06", label: "March 6, 2027" },
+    { value: "2027-05-01", label: "May 1, 2027" },
+    { value: "2027-07-03", label: "July 3, 2027" },
+    { value: "2027-09-04", label: "September 4, 2027" },
+    { value: "2027-11-06", label: "November 6, 2027" }
+];
+
+
+
+
+const preferredModeOptions = [
+    { value: "Physical - Studio", label: "Physical - Studio" },
+    { value: "Virtual - Livestream", label: "Virtual - Livestream" }
+];
+
 const toolsButton = document.getElementById("toolsButton");
 const toolsDropdown = document.getElementById("toolsDropdown");
 const selectedTools = document.getElementById("selectedTools");
@@ -118,19 +167,14 @@ createDropdown({
     options: experienceOptions
 });
 
+createDropdown({
+    buttonId: "masterclassButton",
+    dropdownId: "masterclassDropdown",
+    selectedId: "masterclassSelected",
+    inputId: "masterclass",
+    options: masterclassOptions
+});
 
-const marketingOptions = [
-    { value: "instagram", label: "Instagram" },
-    { value: "facebook", label: "Facebook" },
-    { value: "linkedin", label: "LinkedIn" },
-    { value: "tiktok", label: "TikTok" },
-    { value: "youtube", label: "YouTube" },
-    { value: "google-search", label: "Google Search" },
-    { value: "friend-colleague", label: "Friend or Colleague" },
-    { value: "whatsapp", label: "WhatsApp" },
-    { value: "website", label: "Website" },
-    { value: "other", label: "Other" }
-];
 
 createDropdown({
     buttonId: "marketingButton",
@@ -140,6 +184,31 @@ createDropdown({
     options: marketingOptions
 });
 
+
+createDropdown({
+    buttonId: "ticketButton",
+    dropdownId: "ticketDropdown",
+    selectedId: "ticketSelected",
+    inputId: "ticket",
+    options: ticketOptions
+});
+
+createDropdown({
+    buttonId: "sessionButton",
+    dropdownId: "sessionDropdown",
+    selectedId: "sessionSelected",
+    inputId: "session",
+    options: sessionOptions
+});
+
+
+createDropdown({
+    buttonId: "preferredModeButton",
+    dropdownId: "preferredModeDropdown",
+    selectedId: "preferredModeSelected",
+    inputId: "preferredMode",
+    options: preferredModeOptions
+});
 
 
 function renderTools() {
@@ -274,20 +343,3 @@ document.addEventListener("click", (event) => {
 
 renderTools();
 updateSelectedTools();
-
-const preferredModeButton = document.getElementById("preferredModeButton");
-const preferredModeDropdown = document.getElementById("preferredModeDropdown");
-const preferredModeSelected = document.getElementById("preferredModeSelected");
-const preferredModeInput = document.getElementById("preferredMode");
-
-preferredModeButton.addEventListener("click", () => {
-    preferredModeDropdown.classList.toggle("hidden");
-});
-
-preferredModeDropdown.querySelectorAll("button").forEach((button) => {
-    button.addEventListener("click", () => {
-        preferredModeInput.value = button.dataset.value;
-        preferredModeSelected.textContent = button.textContent.trim();
-        preferredModeDropdown.classList.add("hidden");
-    });
-});

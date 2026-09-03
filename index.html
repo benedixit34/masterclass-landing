@@ -11,7 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet" />
-    <link rel="stylesheet" href="./assets/styles.css" />
+  <link rel="stylesheet" href="./assets/styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css" />
   <title>Masterclass Bookings</title>
@@ -28,7 +28,7 @@
       <div id="formProgress" class="mb-8">
         <div class="flex items-center justify-between">
 
-      
+
           <div class="flex flex-1 items-center">
             <div class="flex flex-col items-center">
               <div id="step1"
@@ -123,7 +123,8 @@
 
             <input
               class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
-              id="phone" name="phone" type="tel" placeholder="801 234 5678" required />
+              id="phone" name="phone" type="tel" placeholder="801 234 5678" inputmode="numeric" pattern="[0-9]{7,15}"
+              maxlength="15" required />
 
             <div id="countryDropdown"
               class="absolute left-0 top-full z-50 mt-1 hidden max-h-60 w-64 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg">
@@ -135,13 +136,23 @@
           <p id="phoneError" class="mt-1 hidden text-xs text-red-500"></p>
         </div>
 
-        <div class="mb-4">
-          <label class="mb-2 block text-sm font-semibold text-gray-700" for="location">Where are you based? (City,
-            Country)</label>
-          <input
-            class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-[#ff4c00]/20 focus:shadow-outline"
-            id="location" type="text" placeholder="e.g., Lagos, Nigeria" required />
+        <div class="relative mb-4">
+          <label class="mb-2 block text-sm font-semibold text-gray-700" for="location">
+            Where are you based? (City, Country)
+          </label>
 
+          <input
+            class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20"
+            id="location" name="location" type="text" placeholder="e.g., Lagos, Nigeria" autocomplete="off" required />
+
+          <div id="locationDropdown"
+            class="absolute left-0 right-0 z-50 mt-1 hidden max-h-64 overflow-y-auto rounded border border-gray-200 bg-white shadow-lg">
+          </div>
+
+          <p id="locationError" class="mt-1 hidden text-sm text-red-500"></p>
+
+        
+          <input type="hidden" id="selectedLocation" name="selectedLocation" />
         </div>
 
 
@@ -156,8 +167,7 @@
       <div id="masterclass-info" class="hidden">
         <div class="mb-5">
           <label for="masterclassButton" class="mb-2 block text-sm font-medium text-gray-700">
-            Which Masterclass are you signing up for? <span
-              class="text-red-500">*</span>
+            Which Masterclass are you signing up for? <span class="text-red-500">*</span>
           </label>
 
           <div class="relative">
@@ -189,15 +199,6 @@
 
             <div id="preferredModeDropdown"
               class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
-              <button type="button" data-value="Physical - Studio"
-                class="block w-full px-3 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
-                Physical - Studio
-              </button>
-
-              <button type="button" data-value="Virtual -  Livestream"
-                class="block w-full px-3 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50">
-                Virtual - Livestream
-              </button>
             </div>
 
             <input type="hidden" id="preferredMode" name="preferredMode" required />
@@ -206,15 +207,18 @@
           <p id="preferredModeError" class="mt-1 hidden text-sm text-red-500"></p>
         </div>
 
+
+
+
         <div class="mb-5">
           <label for="sessionButton" class="mb-2 block text-sm font-medium text-gray-700">
             Which cohort/start date works for you?
           </label>
 
           <div class="relative">
-            <button type="button" id="sessionButton" disabled
-              class="flex w-full items-center justify-between rounded border border-gray-300 bg-gray-100 px-3 py-2.5 text-left text-sm text-gray-400 outline-none transition disabled:cursor-not-allowed disabled:opacity-70 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
-              <span id="sessionSelected">Select a masterclass first</span>
+            <button type="button" id="sessionButton"
+              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+              <span id="sessionSelected">Select a session</span>
               <span class="text-xs text-gray-400">▼</span>
             </button>
 
@@ -286,8 +290,7 @@
       <div id="professional-info" class="hidden">
         <div class="mb-4">
           <label class="mb-2 block text-sm font-medium text-gray-700">
-            Which of these best describes you? <span
-              class="text-red-500">*</span>
+            Which of these best describes you? <span class="text-red-500">*</span>
           </label>
 
           <div class="relative">
@@ -414,8 +417,7 @@
 
         <div class="mb-6">
           <label class="mb-2 block text-sm font-medium text-gray-700">
-            How did you hear about us? <span
-              class="text-red-500">*</span>
+            How did you hear about us? <span class="text-red-500">*</span>
           </label>
 
           <div class="relative">
@@ -433,10 +435,11 @@
           </div>
           <p id="marketingError" class="mt-1 hidden text-xs text-red-500"></p>
         </div>
-        <p id="back-to-professional-button" class="text-sm font-medium text-gray-500 hover:text-[#ff4c00] cursor-pointer mb-6"
+        <p id="back-to-professional-button"
+          class="text-sm font-medium text-gray-500 hover:text-[#ff4c00] cursor-pointer mb-6"
           onclick="updateProgress(3)">
           Go Back &larr;
-      </p>
+        </p>
 
 
         <div class="flex items-center gap-3">
@@ -450,13 +453,14 @@
             Pay Now
           </button>
         </div>
-        <p class="text-[11px] pt-6 leading-4">By submitting this form, you agree to Orange VFX’s Privacy Policy and Terms of Service.</p>
+        <p class="text-[11px] pt-6 leading-4">By submitting this form, you agree to Orange VFX’s Privacy Policy and
+          Terms of Service.</p>
 
       </div>
 
 
 
-      
+
 
     </form>
   </div>
@@ -467,8 +471,8 @@
   <script src="./scripts/country_selection.js"></script>
   <script src="./scripts/main.js"></script>
   <script src="./scripts/dropdown.js"></script>
-  <script src="./scripts/masterclass.js"></script>
   <script src="./scripts/payment.js"></script>
+  <script src="./scripts/location_search.js"></script>
   </div>
 
 
