@@ -175,58 +175,9 @@ function getBookingData() {
     };
 }
 
-payNowBtn.addEventListener("click", async function () {
-    setButtonLoading(payNowBtn, "Processing...");
-    if (!validateBookingForm()) {
-        return;
-    }
-
-    const booking = getBookingData();
-
-    if (!booking) {
-        return;
-    }
-
-    await saveBookingForLater(booking);
-
-    
-    const txRef = "masterclass-" + Date.now();
-
-    FlutterwaveCheckout({
-        public_key: "FLWPUBK_TEST-4ca42aac0399cba2e9f8507cb9eb1807-X",
-        tx_ref: txRef,
-        amount: booking.amount,
-        currency: "NGN",
-        payment_options: "card, banktransfer, ussd",
-        customer: {
-            email: booking.email,
-            name: booking.name,
-            phone_number: booking.phone
-        },
-        customizations: {
-            title: "Orange VFX Masterclass Booking",
-            description: "Masterclass registration",
-            logo: "../assets/Orange Seed Initiative Approved Logo.png"
-        },
-        callback: async (data) => {
-            if (data.status !== "successful" || !data.transaction_id) {
-                window.location.href =
-                    `./status.html?status=pending&reference=${encodeURIComponent(data.transaction_id || "")}`;
-                return;
-            } else {
-                window.location.href = `./status.html?status=success&reference=${encodeURIComponent(data.transaction_id)}`;
-            }
-
-
-        },
-        onclose: function () {
-            console.log("Flutterwave checkout closed.");
-        }
-    });
-});
-
 payLaterBtn.addEventListener("click", async function () {
     setButtonLoading(payLaterBtn, "Processing...");
+
     if (!validateBookingForm()) {
         return;
     }
@@ -237,10 +188,15 @@ payLaterBtn.addEventListener("click", async function () {
         return;
     }
 
-    await saveBookingForLater(booking);
-    window.location.href = "./status.html?status=pending";
-});
+    const reference = await saveBookingForLater(booking);
 
+    if (!reference) {
+        return;
+    }
+
+    window.location.href =
+        `./status.html?status=pending&reference=${encodeURIComponent(reference)}`;
+});
 
 
 async function saveBookingForLater(booking) {
@@ -271,17 +227,14 @@ async function saveBookingForLater(booking) {
 
         if (!response.ok || !result.success) {
             console.error("Save booking failed:", result);
-
-            window.location.href =
-                "./status.html?status=failed";
-
-            return;
+            window.location.href = "./status.html?status=failed";
+            return null;
         }
+
+        return result.data.reference;
     } catch (error) {
         console.error("Unable to save booking:", error);
-
-        window.location.href =
-            "./status.html?status=failed";
+        window.location.href = "./status.html?status=failed";
+        return null;
     }
 }
-

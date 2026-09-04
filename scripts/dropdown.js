@@ -139,7 +139,7 @@ const sessionOptions = [
 
 const preferredModeOptions = [
     { value: "Physical - Studio", label: "Physical - Studio" },
-    { value: "Virtual - Livestream", label: "Virtual - Livestream" }
+    { value: "Virtual -  Livestream", label: "Virtual -  Livestream" }
 ];
 
 const toolsButton = document.getElementById("toolsButton");

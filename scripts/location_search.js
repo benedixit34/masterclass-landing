@@ -18,23 +18,19 @@ async function loadLocations() {
     }
 
     locationData = await response.json();
-    console.log("Location data loaded:", locationData.length);
   } catch (error) {
     console.error("Location loading error:", error);
   }
 }
 
-loadLocations();
-
 locationInput.addEventListener("input", () => {
-  const search = locationInput.value.trim().toLowerCase();
-
   selectedLocation = null;
   selectedLocationInput.value = "";
 
-  locationInput.classList.remove("border-red-500");
   locationError.classList.add("hidden");
-  locationError.textContent = "";
+  locationInput.classList.remove("border-red-500");
+
+  const search = locationInput.value.trim().toLowerCase();
 
   locationDropdown.innerHTML = "";
 
@@ -48,6 +44,7 @@ locationInput.addEventListener("input", () => {
   locationData.forEach((country) => {
     const countryName = country.name;
     const isNigeria = countryName.toLowerCase() === "nigeria";
+    const priority = isNigeria ? 0 : 2;
 
     if (countryName.toLowerCase().includes(search)) {
       results.push({
@@ -56,70 +53,68 @@ locationInput.addEventListener("input", () => {
         state: "",
         country: countryName,
         label: countryName,
-        priority: isNigeria ? 0 : 2,
+        priority,
       });
     }
 
-    if (Array.isArray(country.states)) {
-      country.states.forEach((state) => {
-        const stateName = state.name;
+    if (!Array.isArray(country.states)) return;
+
+    country.states.forEach((state) => {
+      const stateName = state.name;
+      const stateLocation = `${stateName}, ${countryName}`;
+
+      if (
+        stateName.toLowerCase().includes(search) ||
+        stateLocation.toLowerCase().includes(search)
+      ) {
+        results.push({
+          type: "state",
+          city: "",
+          state: stateName,
+          country: countryName,
+          label: stateLocation,
+          priority,
+        });
+      }
+
+      if (!Array.isArray(state.cities)) return;
+
+      state.cities.forEach((cityName) => {
+        const fullLocation =
+          `${cityName}, ${stateName}, ${countryName}`;
+
+        const cityCountryLocation =
+          `${cityName}, ${countryName}`;
 
         if (
-          stateName.toLowerCase().includes(search) ||
-          `${stateName}, ${countryName}`.toLowerCase().includes(search)
+          cityName.toLowerCase().includes(search) ||
+          fullLocation.toLowerCase().includes(search) ||
+          cityCountryLocation.toLowerCase().includes(search)
         ) {
           results.push({
-            type: "state",
-            city: "",
+            type: "city",
+            city: cityName,
             state: stateName,
             country: countryName,
-            label: `${stateName}, ${countryName}`,
-            priority: isNigeria ? 0 : 2,
-          });
-        }
-
-        if (Array.isArray(state.cities)) {
-          state.cities.forEach((cityName) => {
-            const fullLocation =
-              `${cityName}, ${stateName}, ${countryName}`.toLowerCase();
-
-            const cityCountryLocation =
-              `${cityName}, ${countryName}`.toLowerCase();
-
-            if (
-              cityName.toLowerCase().includes(search) ||
-              fullLocation.includes(search) ||
-              cityCountryLocation.includes(search)
-            ) {
-              results.push({
-                type: "city",
-                city: cityName,
-                state: stateName,
-                country: countryName,
-                label: `${cityName}, ${stateName}, ${countryName}`,
-                priority: isNigeria ? 0 : 2,
-              });
-            }
+            label: fullLocation,
+            priority,
           });
         }
       });
-    }
+    });
   });
 
   const uniqueResults = Array.from(
     new Map(results.map((item) => [item.label, item])).values()
   );
 
-  const sortedResults = uniqueResults.sort((a, b) => {
-    const aSearch = a.label.toLowerCase();
-    const bSearch = b.label.toLowerCase();
-
-    const aStartsWith = aSearch.startsWith(search);
-    const bStartsWith = bSearch.startsWith(search);
-
+  uniqueResults.sort((a, b) => {
     if (a.priority !== b.priority) {
       return a.priority - b.priority;
     }
+
+    const aStartsWith = a.label.toLowerCase().startsWith(search);
+    const bStartsWith = b.label.toLowerCase().startsWith(search);
 
     if (aStartsWith !== bStartsWith) {
       return bStartsWith - aStartsWith;
@@ -128,9 +123,9 @@ locationInput.addEventListener("input", () => {
     return a.label.localeCompare(b.label);
   });
 
-  const limitedResults = sortedResults.slice(0, 10);
+  const locations = uniqueResults.slice(0, 10);
 
-  if (!limitedResults.length) {
+  if (!locations.length) {
     locationDropdown.innerHTML = `
       <div class="px-4 py-3 text-sm text-gray-500">
         No locations found
@@ -141,15 +136,15 @@ locationInput.addEventListener("input", () => {
     return;
   }
 
-  limitedResults.forEach((location) => {
+  locations.forEach((location) => {
     const option = document.createElement("button");
 
     option.type = "button";
     option.className =
       "block w-full border-b border-gray-100 px-4 py-3 text-left last:border-0 hover:bg-gray-50";
 
-    let title = "";
-    let subtitle = "";
+    let title;
+    let subtitle;
 
     if (location.type === "city") {
       title = location.city;
@@ -163,12 +158,8 @@ locationInput.addEventListener("input", () => {
     }
 
     option.innerHTML = `
-      <div class="font-medium text-gray-800">
-        ${title}
-      </div>
-      <div class="mt-0.5 text-xs text-gray-500">
-        ${subtitle}
-      </div>
+      <div class="font-medium text-gray-800">${title}</div>
+      <div class="mt-0.5 text-xs text-gray-500">${subtitle}</div>
     `;
 
     option.addEventListener("click", () => {
@@ -177,15 +168,29 @@ locationInput.addEventListener("input", () => {
       selectedLocationInput.value = location.label;
 
       locationDropdown.classList.add("hidden");
-      locationInput.classList.remove("border-red-500");
       locationError.classList.add("hidden");
-      locationError.textContent = "";
+      locationInput.classList.remove("border-red-500");
     });
 
     locationDropdown.appendChild(option);
   });
 
   locationDropdown.classList.remove("hidden");
+});
+
+locationInput.addEventListener("blur", () => {
+  setTimeout(() => {
+    if (
+      !selectedLocation ||
+      locationInput.value !== selectedLocationInput.value
+    ) {
+      locationInput.value = "";
+      selectedLocationInput.value = "";
+      selectedLocation = null;
+    }
+
+    locationDropdown.classList.add("hidden");
+  }, 200);
 });
 
 document.addEventListener("click", (event) => {
@@ -198,24 +203,24 @@ document.addEventListener("click", (event) => {
 });
 
 function validateLocation() {
+  if (
+    !selectedLocation ||
+    !selectedLocationInput.value ||
+    locationInput.value !== selectedLocationInput.value
+  ) {
+    locationError.textContent =
+      "Please select a location from the dropdown.";
+    locationError.classList.remove("hidden");
+    locationInput.classList.add("border-red-500");
+
+    return false;
+  }
+
   locationError.textContent = "";
   locationError.classList.add("hidden");
   locationInput.classList.remove("border-red-500");
 
-  if (!locationInput.value.trim()) {
-    locationError.textContent = "Please enter your location.";
-    locationError.classList.remove("hidden");
-    locationInput.classList.add("border-red-500");
-    return false;
-  }
-
-  if (!selectedLocation) {
-    locationError.textContent =
-      "Please select a location from the suggestions.";
-    locationError.classList.remove("hidden");
-    locationInput.classList.add("border-red-500");
-    return false;
-  }
-
   return true;
 }
+
+loadLocations();

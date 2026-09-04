@@ -86,6 +86,7 @@ personalInfoButton.addEventListener("click", (event) => {
   const name = document.getElementById("name");
   const email = document.getElementById("email");
   const phone = document.getElementById("phone");
+  const location = document.getElementById("location");
 
   const nameError = document.getElementById("nameError");
   nameError.textContent = "";
@@ -133,9 +134,18 @@ personalInfoButton.addEventListener("click", (event) => {
     phone.classList.add("border-red-500");
   }
 
+  if (!location.value.trim()) {
+    const locationError = document.getElementById("locationError");
+    locationError.textContent = "Please select a location from the dropdown.";
+    locationError.classList.remove("hidden");
+    location.classList.add("border-red-500");
+  }
+
   if (!name.reportValidity()) return;
   if (!email.reportValidity()) return;
   if (!phone.reportValidity()) return;
+  if (!location.reportValidity()) return;
+
 
   personalInfo.classList.add("hidden");
   masterclassInfo.classList.remove("hidden");
@@ -150,6 +160,42 @@ backToPersonalButton.addEventListener("click", () => {
 });
 
 masterclassInfoButton.addEventListener("click", () => {
+
+  const masterclass = document.getElementById("masterclass"); 
+  const masterclassError = document.getElementById("masterclassError");
+  masterclassError.textContent = "";
+  masterclassError.classList.add("hidden");
+  masterclass.classList.remove("border-red-500");
+
+
+  const preferredMode = document.getElementById("preferredMode");
+  const preferredModeError = document.getElementById("preferredModeError");
+  preferredModeError.textContent = "";
+  preferredModeError.classList.add("hidden");
+  preferredMode.classList.remove("border-red-500");
+  let valid = true; 
+
+  if (!masterclass.value) {
+    masterclassError.textContent = "Please select a masterclass.";
+    masterclassError.classList.remove("hidden");
+    masterclass.classList.add("border-red-500");
+    valid = false;
+  }
+
+  if (!preferredMode.value) {
+    preferredModeError.textContent = "Please select a preferred mode.";
+    preferredModeError.classList.remove("hidden");
+    preferredMode.classList.add("border-red-500");
+    valid = false;
+  }
+
+
+  if (!valid) {
+    return;
+  }
+
+  if (!masterclass.reportValidity()) return;
+
   masterclassInfo.classList.add("hidden");
   professionalInfo.classList.remove("hidden");
   updateProgress(3);

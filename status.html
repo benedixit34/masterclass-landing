@@ -60,11 +60,10 @@
       ></p>
 
       <div class="flex flex-col gap-3">
-        <a
-          id="primaryButton"
-          href="./index.html"
+        <button
+          id="primaryPaymentButton"
           class="w-full rounded-lg bg-[#ff4c00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e64400]"
-        ></a>
+        ></button>
 
         <a
           href="./index.html"
@@ -74,135 +73,8 @@
         </a>
       </div>
     </main>
-
-    <script>
-      const params = new URLSearchParams(window.location.search);
-
-      const status = params.get("status");
-      const reference = params.get("reference");
-
-      const statusIcon = document.getElementById("statusIcon");
-      const statusTitle = document.getElementById("statusTitle");
-      const statusMessage = document.getElementById("statusMessage");
-      const paymentStatus = document.getElementById("paymentStatus");
-      const additionalMessage = document.getElementById("additionalMessage");
-      const primaryButton = document.getElementById("primaryButton");
-      const referenceContainer = document.getElementById("referenceContainer");
-      const paymentReference = document.getElementById("paymentReference");
-
-      if (reference) {
-        paymentReference.textContent = reference;
-        referenceContainer.classList.remove("hidden");
-        referenceContainer.classList.add("flex");
-      }
-
-      if (status === "success") {
-        statusIcon.className =
-          "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50";
-
-        statusIcon.innerHTML = `
-          <svg
-            class="h-10 w-10 text-green-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        `;
-
-        statusTitle.textContent = "Booking Confirmed";
-
-        statusMessage.textContent =
-          "Your payment has been received and your masterclass booking has been confirmed.";
-
-        paymentStatus.textContent = "Confirmed";
-        paymentStatus.className = "text-sm font-medium text-green-600";
-
-        additionalMessage.textContent =
-          "A confirmation and further details will be sent to your email address.";
-
-        primaryButton.textContent = "Back to Home";
-      }
-
-      else if (status === "pending") {
-        statusIcon.className =
-          "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-50";
-
-        statusIcon.innerHTML = `
-          <svg
-            class="h-10 w-10 text-yellow-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6v6l4 2"
-            />
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-            />
-          </svg>
-        `;
-
-        statusTitle.textContent = "Booking Received";
-
-        statusMessage.textContent =
-          "Your masterclass booking has been received. Payment has not been made yet.";
-
-        paymentStatus.textContent = "Payment Pending";
-        paymentStatus.className = "text-sm font-medium text-yellow-600";
-
-        additionalMessage.textContent =
-          "Our team will contact you with payment instructions and the next steps.";
-
-        primaryButton.textContent = "Back to Home";
-      }
-
-      else {
-        statusIcon.className =
-          "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-50";
-
-        statusIcon.innerHTML = `
-          <svg
-            class="h-10 w-10 text-red-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        `;
-
-        statusTitle.textContent = "Booking Failed";
-
-        statusMessage.textContent =
-          "We couldn't complete your booking. Please try again.";
-
-        paymentStatus.textContent = "Failed";
-        paymentStatus.className = "text-sm font-medium text-red-500";
-
-        additionalMessage.textContent =
-          "If money was deducted from your account, please contact us with your payment reference.";
-
-        primaryButton.textContent = "Try Again";
-      }
-    </script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="./scripts/status.js"></script>
   </body>
 </html>
 
