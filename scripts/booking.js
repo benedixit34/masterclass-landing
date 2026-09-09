@@ -1,13 +1,7 @@
 const payNowBtn = document.getElementById("pay-now-btn");
 const payLaterBtn = document.getElementById("pay-later-btn");
 
-const ticketPrices = {
-    "early-bird": 180000,
-    standard: 200000,
-    vip: 300000
-};
-
-const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
+const SAVE_BOOKING_URL = "http://localhost:3000/api/bookings/save";
 
 
 function setButtonLoading(button, loadingText) {
@@ -60,7 +54,7 @@ function validateBookingForm() {
     const preferredMode = document.getElementById("preferredMode").value;
     const masterclass = document.getElementById("masterclass").value;
     const session = document.getElementById("session").value;
-    const ticket = document.getElementById("ticket").value;
+
 
     [
         "name",
@@ -71,7 +65,6 @@ function validateBookingForm() {
         "preferredMode",
         "masterclass",
         "session",
-        "ticket"
     ].forEach(clearError);
 
     if (!name) {
@@ -117,10 +110,7 @@ function validateBookingForm() {
         isValid = false;
     }
 
-    if (!ticket) {
-        showError("ticket", "Please select a ticket type.");
-        isValid = false;
-    }
+
 
     return isValid;
 }
@@ -147,15 +137,8 @@ function getBookingData() {
 
     const masterclass = document.getElementById("masterclass").value;
     const session = document.getElementById("session").value;
-    const ticket = document.getElementById("ticket").value;
     const learningGoal = document.getElementById("learningGoal").value.trim();
-    const amount = ticketPrices[ticket];
-
-    if (!amount) {
-        showError("ticket", "Invalid ticket type.");
-        return null;
-    }
-
+ 
     const fullPhoneNumber = `${countryCode}${phone.replace(/^0+/, "")}`;
 
     return {
@@ -168,8 +151,6 @@ function getBookingData() {
         tools,
         masterclass,
         session,
-        ticket,
-        amount,
         learningGoal,
         futureInterest
     };
@@ -216,8 +197,6 @@ async function saveBookingForLater(booking) {
                 tools: booking.tools,
                 masterclass: booking.masterclass,
                 session: booking.session,
-                ticket: booking.ticket,
-                amount: booking.amount,
                 learningGoal: booking.learningGoal,
                 futureInterest: booking.futureInterest
             })

@@ -134,17 +134,11 @@ personalInfoButton.addEventListener("click", (event) => {
     phone.classList.add("border-red-500");
   }
 
-  if (!location.value.trim()) {
-    const locationError = document.getElementById("locationError");
-    locationError.textContent = "Please select a location from the dropdown.";
-    locationError.classList.remove("hidden");
-    location.classList.add("border-red-500");
-  }
 
   if (!name.reportValidity()) return;
   if (!email.reportValidity()) return;
   if (!phone.reportValidity()) return;
-  if (!location.reportValidity()) return;
+  
 
 
   personalInfo.classList.add("hidden");

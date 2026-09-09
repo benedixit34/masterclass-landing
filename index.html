@@ -138,18 +138,16 @@
 
         <div class="relative mb-4">
           <label class="mb-2 block text-sm font-semibold text-gray-700" for="location">
-            Where are you based? (City, Country)<span class="text-red-500">*</span>
+            Where are you based? (City/State, Country)
           </label>
 
           <input
             class="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#ff4c00]/20"
-            id="location" name="location" type="text" placeholder="e.g., Lagos, Nigeria" autocomplete="off" required />
+            id="location" name="location" type="text" placeholder="e.g., Lagos, Nigeria" autocomplete="off" />
 
           <div id="locationDropdown"
             class="absolute left-0 right-0 z-50 mt-1 hidden max-h-64 overflow-y-auto rounded border border-gray-200 bg-white shadow-lg">
           </div>
-
-          <p id="locationError" class="mt-1 hidden text-xs text-red-500"></p>
 
         
           <input type="hidden" id="selectedLocation" name="selectedLocation" />
@@ -355,25 +353,7 @@
 
 
       <div id="payment-info" class="hidden">
-        <div class="mb-4">
-          <label for="ticketButton" class="mb-2 block text-sm font-medium text-gray-700">
-            Ticket Type
-          </label>
-
-          <div class="relative">
-            <button type="button" id="ticketButton"
-              class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
-              <span id="ticketSelected">Select ticket type</span>
-              <span class="text-xs text-gray-400">▼</span>
-            </button>
-
-            <div id="ticketDropdown"
-              class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
-            </div>
-
-            <input type="hidden" id="ticket" name="ticket" required />
-          </div>
-        </div>
+     
 
 
         <div class="mb-4">
@@ -402,9 +382,9 @@
               class="absolute left-0 top-full z-40 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
             </div>
 
-            <input type="hidden" id="marketing" name="marketing" required />
+            <input type="hidden" id="marketing" name="marketing" />
           </div>
-          <p id="marketingError" class="mt-1 hidden text-xs text-red-500"></p>
+          
         </div>
        
 
@@ -437,8 +417,8 @@
   <script src="https://checkout.flutterwave.com/v3.js"></script>
   <script src="./scripts/country_selection.js"></script>
   <script src="./scripts/main.js"></script>
-  <script src="./scripts/dropdown.js"></script>
-  <script src="./scripts/payment.js"></script>
+  <script type="module" src="./scripts/dropdown.js"></script>
+  <script src="./scripts/booking.js"></script>
   <script src="./scripts/location_search.js"></script>
  
   </div>

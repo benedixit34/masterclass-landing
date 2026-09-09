@@ -1,80 +1,82 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="./assets/favicon.ico" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./assets/favicon.ico" />
 
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
 
-    <title>Booking Status</title>
-  </head>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-  <body class="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12 font-[Poppins]">
-    <main class="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg">
+  <title>Booking Status</title>
+</head>
 
-      <div
-        id="statusIcon"
-        class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
-      ></div>
+<body class="flex min-h-screen items-center justify-center bg-gray-50 px-6 py-12 font-[Poppins]">
+  <main class="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg">
 
-      <h1
-        id="statusTitle"
-        class="mb-3 font-[Montserrat] text-3xl font-semibold text-gray-900"
-      ></h1>
+    <div id="statusIcon" class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"></div>
 
-      <p
-        id="statusMessage"
-        class="mb-6 text-sm leading-6 text-gray-500"
-      ></p>
+    <h1 id="statusTitle" class="mb-3 font-[Montserrat] text-3xl font-semibold text-gray-900"></h1>
 
-      <div class="mb-6 rounded-lg bg-gray-50 p-4 text-left">
-        <div class="flex items-center justify-between">
-          <span class="text-sm text-gray-500">Status</span>
-          <span id="paymentStatus" class="text-sm font-medium"></span>
-        </div>
+    <p id="statusMessage" class="mb-6 text-sm leading-6 text-gray-500"></p>
 
-        <div
-          id="referenceContainer"
-          class="mt-3 hidden items-center justify-between border-t border-gray-200 pt-3"
-        >
-          <span class="text-sm text-gray-500">Reference</span>
-
-          <span
-            id="paymentReference"
-            class="max-w-[200px] truncate text-sm font-medium text-gray-700"
-          ></span>
-        </div>
+    <div class="mb-6 rounded-lg bg-gray-50 p-4 text-left">
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-500">Status</span>
+        <span id="paymentStatus" class="text-sm font-medium"></span>
       </div>
 
-      <p
-        id="additionalMessage"
-        class="mb-6 text-xs leading-5 text-gray-400"
-      ></p>
+      <div id="referenceContainer" class="mt-3 hidden items-center justify-between border-t border-gray-200 pt-3">
+        <span class="text-sm text-gray-500">Reference</span>
 
-      <div class="flex flex-col gap-3">
-        <button
-          id="primaryPaymentButton"
-          class="w-full rounded-lg bg-[#ff4c00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e64400]"
-        ></button>
-
-        <a
-          href="./index.html"
-          class="w-full rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-        >
-          Back to Home
-        </a>
+        <span id="paymentReference" class="max-w-[200px] truncate text-sm font-medium text-gray-700"></span>
       </div>
-    </main>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
-    <script src="./scripts/status.js"></script>
-  </body>
+    </div>
+
+    <p id="additionalMessage" class="mb-6 text-xs leading-5 text-gray-400"></p>
+
+    <div id="payment-info" class="hidden">
+      <div class="mb-4">
+
+        <div class="relative">
+          <button type="button" id="ticketButton"
+            class="flex w-full items-center justify-between rounded border border-gray-300 bg-white px-3 py-2.5 text-left text-sm text-gray-700 outline-none transition hover:border-gray-400 focus:border-[#ff4c00]/50 focus:ring-2 focus:ring-[#ff4c00]/10">
+            <span id="ticketSelected">Select ticket type</span>
+            <span class="text-xs text-gray-400">▼</span>
+          </button>
+
+          <div id="ticketDropdown"
+            class="absolute left-0 top-full z-50 mt-1 hidden w-full overflow-hidden rounded border border-gray-200 bg-white shadow-lg">
+          </div>
+
+          <input type="hidden" id="ticket" name="ticket" required />
+        </div>
+         <p id="ticketError" class="mt-1 hidden text-xs text-red-500"></p>
+      </div>
+
+
+    </div>
+
+
+    <div class="flex flex-col gap-3">
+      <button id="primaryPaymentButton"
+        class="w-full rounded-lg bg-[#ff4c00] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#e64400]"></button>
+
+      <a href="./index.html"
+        class="w-full rounded-lg border border-gray-300 px-5 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
+        Back to Home
+      </a>
+    </div>
+  </main>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script type="module"  src="./scripts/status.js"></script>
+  
+</body>
+
 </html>
-

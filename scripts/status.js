@@ -1,3 +1,21 @@
+import { createDropdown } from "./components/createDropdown.js";
+import { setButtonLoading } from "./components/setButtonLoading.js";
+
+const ticketOptions = [
+    { value: "early-bird", label: "Early Bird — ₦180,000" },
+    { value: "standard", label: "Standard — ₦200,000" },
+    { value: "vip", label: "VIP — ₦300,000" }
+];
+
+createDropdown({
+    buttonId: "ticketButton",
+    dropdownId: "ticketDropdown",
+    selectedId: "ticketSelected",
+    inputId: "ticket",
+    options: ticketOptions
+});
+
+
 const params = new URLSearchParams(window.location.search);
 
 const statusCode = params.get("status");
@@ -11,24 +29,24 @@ const additionalMessage = document.getElementById("additionalMessage");
 const primaryPaymentButton = document.getElementById("primaryPaymentButton");
 const referenceContainer = document.getElementById("referenceContainer");
 const paymentReference = document.getElementById("paymentReference");
+const primaryInfo = document.getElementById("payment-info")
 
+const ticketPrices = {
+    "early-bird": 180000,
+    standard: 200000,
+    vip: 300000
+};
+
+
+console.log(ticketPrices["early-bird"])
 if (reference) {
   paymentReference.textContent = reference;
   referenceContainer.classList.remove("hidden");
   referenceContainer.classList.add("flex");
 }
 
-const BASE_URL = "https://orange-payment-api.vercel.app/api/bookings";
+const BASE_URL = "http://localhost:3000/api/bookings";
 
-function setButtonLoading(button, loadingText) {
-  button.disabled = true;
-  button.innerHTML = `
-    <span class="flex items-center justify-center gap-2">
-      <span class="spinner"></span>
-      <span>${loadingText}</span>
-    </span>
-  `;
-}
 
 async function getPendingBooking() {
   if (!reference) {
@@ -76,6 +94,7 @@ async function confirmPayment(transactionId, reference) {
 }
 
 if (statusCode === "success") {
+  
   statusIcon.className =
     "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50";
 
@@ -108,6 +127,8 @@ if (statusCode === "success") {
 
   primaryPaymentButton.textContent = "Check Other Courses";
 } else if (statusCode === "pending") {
+  primaryInfo.classList.remove("hidden")
+  
   statusIcon.className =
     "mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-50";
 
@@ -146,14 +167,28 @@ if (statusCode === "success") {
   primaryPaymentButton.textContent = "Pay Now";
 
   primaryPaymentButton.addEventListener("click", async () => {
-    setButtonLoading(primaryPaymentButton, "Processing...");
+    const ticket = document.getElementById("ticket").value;
+    const ticketError = document.getElementById("ticketError")
+
+    if (!ticket) {
+      ticketError.classList.remove("hidden")
+       ticketError.textContent = "Please select a ticket type.";
+        return;
+    }
+
+    const amount = ticketPrices[ticket];
+
+    if (!amount) {
+         ticketError.textContent = "Invalid ticket type selected.";
+        return;
+    }
     try {
       const booking = await getPendingBooking();
 
       FlutterwaveCheckout({
         public_key: "FLWPUBK_TEST-4ca42aac0399cba2e9f8507cb9eb1807-X",
         tx_ref: `masterclass-${Date.now()}`,
-        amount: booking.amount,
+        amount: ticketPrices[ticket],
         currency: "NGN",
         payment_options: "card, banktransfer, ussd",
 
