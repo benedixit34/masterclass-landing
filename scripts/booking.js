@@ -1,7 +1,7 @@
 const payNowBtn = document.getElementById("pay-now-btn");
 const payLaterBtn = document.getElementById("pay-later-btn");
 
-const SAVE_BOOKING_URL = "http://localhost:3000/api/bookings/save";
+const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
 
 
 function setButtonLoading(button, loadingText) {

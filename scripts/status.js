@@ -45,7 +45,7 @@ if (reference) {
   referenceContainer.classList.add("flex");
 }
 
-const BASE_URL = "http://localhost:3000/api/bookings";
+const BASE_URL = "https://orange-payment-api.vercel.app/api/bookings";
 
 
 async function getPendingBooking() {
@@ -182,6 +182,8 @@ if (statusCode === "success") {
          ticketError.textContent = "Invalid ticket type selected.";
         return;
     }
+
+    setButtonLoading(primaryPaymentButton, "Processing...")
     try {
       const booking = await getPendingBooking();
 
