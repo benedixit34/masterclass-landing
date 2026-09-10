@@ -18,13 +18,9 @@ const experienceOptions = [
 
 
 const masterclassOptions = [
-  { value: "3d", label: "3D" },
-  { value: "ai", label: "AI" },
   { value: "graphic-design", label: "Graphic Design" },
   { value: "motion-design", label: "Motion Design" },
-  { value: "storytelling", label: "Storytelling" },
   { value: "video-editing", label: "Video Editing" },
-  { value: "vfx", label: "VFX" }
 ];
 
 const marketingOptions = [
