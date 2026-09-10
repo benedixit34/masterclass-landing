@@ -76,14 +76,10 @@ const creativeTools = [
 
 
 const sessionOptions = [
-    { value: "2026-09-05", label: "September 5, 2026" },
-    { value: "2026-11-07", label: "November 7, 2026" },
-    { value: "2027-01-02", label: "January 2, 2027" },
-    { value: "2027-03-06", label: "March 6, 2027" },
-    { value: "2027-05-01", label: "May 1, 2027" },
-    { value: "2027-07-03", label: "July 3, 2027" },
-    { value: "2027-09-04", label: "September 4, 2027" },
-    { value: "2027-11-06", label: "November 6, 2027" }
+    { value: "2026-09-26", label: "September 26, 2026" },
+    { value: "2026-11-21", label: "November 21, 2026" },
+    { value: "2027-01-23", label: "January 23, 2027" },
+
 ];
 
 
