@@ -1,19 +1,11 @@
-const payNowBtn = document.getElementById("pay-now-btn");
+import { setButtonLoading } from "./components/setButtonLoading.js";
+
 const payLaterBtn = document.getElementById("pay-later-btn");
 
-const SAVE_BOOKING_URL = "https://orange-payment-api.vercel.app/api/bookings/save";
+const SAVE_BOOKING_URL = "https://orange-payment-api.onrender.com/api/bookings/save";
 
 
-function setButtonLoading(button, loadingText) {
-  button.disabled = true;
 
-  button.innerHTML = `
-    <span class="flex items-center justify-center gap-2">
-      <span class="spinner"></span>
-      <span>${loadingText}</span>
-    </span>
-  `;
-}
 
 function showError(inputId, message) {
     const input = document.getElementById(inputId);
@@ -124,6 +116,7 @@ function getBookingData() {
     const experience = document.getElementById("experience").value;
     const preferredMode = document.getElementById("preferredMode").value;
     const futureInterest = document.getElementById("futureInterest").value;
+    const referralCode = document.getElementById("referralCode").value;
 
     let tools = [];
 
@@ -151,6 +144,7 @@ function getBookingData() {
         tools,
         masterclass,
         session,
+        referralCode,
         learningGoal,
         futureInterest
     };
@@ -158,19 +152,14 @@ function getBookingData() {
 
 payLaterBtn.addEventListener("click", async function () {
     setButtonLoading(payLaterBtn, "Processing...");
-
     if (!validateBookingForm()) {
         return;
     }
-
     const booking = getBookingData();
-
     if (!booking) {
         return;
     }
-
     const reference = await saveBookingForLater(booking);
-
     if (!reference) {
         return;
     }
@@ -197,6 +186,7 @@ async function saveBookingForLater(booking) {
                 tools: booking.tools,
                 masterclass: booking.masterclass,
                 session: booking.session,
+                referralCode: booking.referralCode,
                 learningGoal: booking.learningGoal,
                 futureInterest: booking.futureInterest
             })

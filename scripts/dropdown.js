@@ -18,9 +18,9 @@ const experienceOptions = [
 
 
 const masterclassOptions = [
-  { value: "graphic-design", label: "Graphic Design" },
-  { value: "motion-design", label: "Motion Design" },
-  { value: "video-editing", label: "Video Editing" },
+  { value: "Graphic Design", label: "Graphic Design" },
+  { value: "Motion Design", label: "Motion Design" },
+  { value: "Video Editing", label: "Video Editing" },
 ];
 
 const marketingOptions = [

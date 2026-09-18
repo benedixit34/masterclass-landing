@@ -1,6 +1,5 @@
 const locationInput = document.getElementById("location");
 const locationDropdown = document.getElementById("locationDropdown");
-const locationError = document.getElementById("locationError");
 const selectedLocationInput = document.getElementById("selectedLocation");
 
 const LOCATION_URL =
@@ -26,8 +25,6 @@ async function loadLocations() {
 locationInput.addEventListener("input", () => {
   selectedLocation = null;
   selectedLocationInput.value = "";
-
-  locationError.classList.add("hidden");
   locationInput.classList.remove("border-red-500");
 
   const search = locationInput.value.trim().toLowerCase();

@@ -45,7 +45,7 @@ if (reference) {
   referenceContainer.classList.add("flex");
 }
 
-const BASE_URL = "https://orange-payment-api.vercel.app/api/bookings";
+const BASE_URL = "https://orange-payment-api.onrender.com/api/bookings";
 
 
 async function getPendingBooking() {
@@ -188,7 +188,7 @@ if (statusCode === "success") {
       const booking = await getPendingBooking();
 
       FlutterwaveCheckout({
-        public_key: "FLWPUBK_TEST-4ca42aac0399cba2e9f8507cb9eb1807-X",
+        public_key: "FLWPUBK-a08a6a1fb75d2eb3a87e01de7ce2535f-X",
         tx_ref: `masterclass-${Date.now()}`,
         amount: ticketPrices[ticket],
         currency: "NGN",
